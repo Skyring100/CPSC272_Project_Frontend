@@ -1,0 +1,11 @@
+.poll_element {
+    border-style: double;
+}
+
+.poll_question {
+    font-weight: bold;
+}
+
+.poll_option {
+    list-style-type: circle;
+}
