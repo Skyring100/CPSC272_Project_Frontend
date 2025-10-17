@@ -22,4 +22,5 @@ export class PollService {
   deletePoll(id: number): Observable<{ ok: boolean }> {
     return this.http.delete<{ ok: boolean }>(`${this.apiUrl}/${id}`);
   }
+  
 }

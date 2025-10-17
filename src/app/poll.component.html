@@ -1,6 +1,8 @@
 <div class="main_page">
+  <p>{{ message }}</p>
+  <!--*ngFor="let poll of allPolls"  -->
   <div class="poll_element">
-    <p>{{ message }}</p>
+  <!-- #{{ poll.question }}-->
     <p class="poll_question">Question</p>
     <ul>
       <li class="poll_option"><button (click)="select()">Option 1</button></li>
