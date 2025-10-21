@@ -15,12 +15,43 @@ import { FormsModule } from '@angular/forms';
 export class PollComponent {
   //This class provides methods and state that the app.component.html can directly call and access
   allPolls : Poll[] = [];
+  
+  
   constructor(private svc: PollService) {}
   message : String = "Welcome to Pollio :O";
+  loading = false;
+
+
   select(){
+
+  }
+
+  load(){
+    //dummy test to see if frontend work (we will switch this to actually using an http request to get data from database)
+    this.allPolls = [
+      {
+        question: "Cat or Dog?",
+        options: ["Cat", "Dog"]
+      },
+      {
+        question: "Best operating system?",
+        options: ["Windows", "Mac", "Linux"]
+      },
+      {
+        question: "Favorite Color?",
+        options: ["Blue", "Green", "Red", "Yellow", "Purple", "Orange"]
+      }
+    ];
+  }
+  /*
+  //This is basically what we will dow when backend is done
+  load() {
+    this.loading = true;
     this.svc.getPoll().subscribe({
       next: rows => this.allPolls = rows,
-      error: () => this.message = 'Oh naur it broked'
+      error: () => this.message = 'Load failed',
+      complete: () => this.loading = false
     });
   }
+  */
 }

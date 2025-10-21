@@ -1,12 +1,13 @@
 <div class="main_page">
   <p>{{ message }}</p>
-  <!--*ngFor="let poll of allPolls"  -->
-  <div class="poll_element">
-  <!-- #{{ poll.question }}-->
-    <p class="poll_question">Question</p>
-    <ul>
-      <li class="poll_option"><button (click)="select()">Option 1</button></li>
-      <li class="poll_option"><button (click)="select()">Option 2</button></li>
+  {{load()}}
+
+  <!--Main poll content-->
+  <div *ngFor="let poll of allPolls" class="poll_element">
+    <p class="poll_question">{{ poll.question }}</p>
+    <ul *ngFor="let option of poll.options">
+      <li class="poll_option"><button (click)="select()">{{option}}</button></li>
     </ul>
   </div>
+  
 </div>
