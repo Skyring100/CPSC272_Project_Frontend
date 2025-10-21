@@ -3,10 +3,12 @@
   {{load()}}
 
   <!--Main poll content-->
+  <!--For every poll in in the loaded results, repeat this div element-->
   <div *ngFor="let poll of allPolls" class="poll_element">
     <p class="poll_question">{{ poll.question }}</p>
+    <!--For every option inside this poll, repeat this list element-->
     <ul *ngFor="let option of poll.options">
-      <li class="poll_option"><button (click)="select()">{{option}}</button></li>
+      <li class="poll_option"><button (click)="select(poll, option)">{{option}}</button></li>
     </ul>
   </div>
   

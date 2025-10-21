@@ -22,8 +22,8 @@ export class PollComponent {
   loading = false;
 
 
-  select(){
-
+  select(selectedPoll: Poll, selectedOption: String){
+      console.log("For the poll \""+selectedPoll.question+"\", you chose \""+selectedOption+"\"");
   }
 
   load(){
