@@ -1,12 +1,12 @@
 
 
 import { Component } from '@angular/core';
-import { PollComponent } from './poll.component';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [PollComponent],
-  template: `<app-poll />`
+  imports: [RouterOutlet],
+  template: `<router-outlet />`
 })
 export class AppComponent {}
