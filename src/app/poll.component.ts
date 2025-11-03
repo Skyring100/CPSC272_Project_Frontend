@@ -46,6 +46,7 @@ export class PollComponent {
     */
   //This is basically what we will dow when backend is done
   load() {
+    console.log("Loading Polls...")
     this.loading = true;
     this.svc.getPoll().subscribe({
       next: rows => this.allPolls = rows,
