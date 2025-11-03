@@ -1,10 +1,11 @@
 .poll_element {
     border-style: solid;
     border-radius: 20px;
-    border-color: lightcyan;
-    background-color:  lightcyan;
+    border-color: lightblue;
+    background-color:  lightblue;
     width: 65%;
     margin: auto;
+    margin-top: 10px;
     padding: 10px;
 }
 

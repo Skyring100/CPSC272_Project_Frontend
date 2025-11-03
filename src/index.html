@@ -1,6 +1,25 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <style>
+    titleBar {
+      display: flex;
+      background-color: whitesmoke;
+      border-style: hidden hidden solid hidden;
+      border-width: thin;
+    }
+    titleBar li {
+      list-style: none;
+    }
+    titleBar li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        background-color: black;
+    }
+  </style>
   <meta charset="utf-8">
   <title>Frontend</title>
   <base href="/">
@@ -8,7 +27,12 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
-  
-  <app-root></app-root>
+  <div>
+    <titleBar><a href="#index">Test</a></titleBar>
+  </div>
+  <div>
+    <app-root></app-root>
+  </div>
+
 </body>
 </html>
