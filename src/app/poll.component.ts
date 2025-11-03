@@ -25,7 +25,7 @@ export class PollComponent {
   select(selectedPoll: Poll, selectedOption: String){
       console.log("For the poll \""+selectedPoll.question+"\", you chose \""+selectedOption+"\"");
   }
-
+  /*
   load(){
     //dummy test to see if frontend work (we will switch this to actually using an http request to get data from database)
     this.allPolls = [
@@ -43,7 +43,7 @@ export class PollComponent {
       }
     ];
   }
-  /*
+    */
   //This is basically what we will dow when backend is done
   load() {
     this.loading = true;
@@ -53,5 +53,4 @@ export class PollComponent {
       complete: () => this.loading = false
     });
   }
-  */
 }

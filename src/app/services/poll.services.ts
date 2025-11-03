@@ -7,7 +7,7 @@ import { environment } from '../../environments/environment';
 @Injectable({ providedIn: 'root' })
 export class PollService {
   //This class is for interfacing with the backend. Our app.component.ts will call these methods by creating an instance of this class
-  private apiUrl = `${environment.apiUrl}/families`;
+  private apiUrl = `${environment.apiUrl}/polls`;
   constructor(private http: HttpClient) {}
 
   getPoll(): Observable<Poll[]> {
