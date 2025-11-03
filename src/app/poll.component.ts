@@ -3,6 +3,7 @@ import { PollService } from './services/poll.services';
 import { Poll } from './models/poll.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Account } from './models/account.model';
 
 
 @Component({
@@ -15,6 +16,27 @@ import { FormsModule } from '@angular/forms';
 export class PollComponent {
   //This class provides methods and state that the app.component.html can directly call and access
   allPolls : Poll[] = [];
+  dummyPolls : Poll[] = [
+    {
+      question: "Cat or Dog?",
+      options: ["Cat", "Dog"]
+    },
+    {
+      question: "Best operating system?",
+      options: ["Windows", "Mac", "Linux"]
+    },
+    {
+      question: "Favorite Color?",
+      options: ["Blue", "Green", "Red", "Yellow", "Purple", "Orange"]
+    }
+  ];
+  dummyAccounts : Account[] = [
+    {
+      username: "Joe",
+      password_hash: "aaa"
+    }
+  ];
+
   
   
   constructor(private svc: PollService) {}
@@ -23,7 +45,7 @@ export class PollComponent {
 
 
   select(selectedPoll: Poll, selectedOption: String){
-      console.log("For the poll \""+selectedPoll.question+"\", you chose \""+selectedOption+"\"");
+    console.log("For the poll \""+selectedPoll.question+"\", you chose \""+selectedOption+"\"");
   }
   /*
   load(){
@@ -52,6 +74,32 @@ export class PollComponent {
       next: rows => this.allPolls = rows,
       error: () => this.message = 'Load failed',
       complete: () => this.loading = false
+    });
+  }
+
+  createNewAccount(newAccount : Account){
+    console.log("Creating a new poll in database...");
+    this.svc.addAccount(newAccount).subscribe({
+      next: _ => {  },
+      error: _ => { }
+    });
+  }
+
+  createNewPoll(newPoll : Poll){
+    console.log("Creating a new poll in database...");
+    this.svc.addPoll(newPoll).subscribe({
+      next: _ => {  },
+      error: _ => { }
+    });
+  }
+
+  createDummyData(){
+    console.log("Creating dummy data...");
+    this.dummyAccounts.forEach(dummyAccount => {
+      this.createNewAccount(dummyAccount);
+    });
+    this.dummyPolls.forEach(dummyPoll => {
+      this.createNewPoll(dummyPoll)
     });
   }
 }
