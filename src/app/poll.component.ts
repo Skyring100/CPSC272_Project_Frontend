@@ -16,28 +16,6 @@ import { Account } from './models/account.model';
 export class PollComponent {
   //This class provides methods and state that the app.component.html can directly call and access
   allPolls : Poll[] = [];
-  dummyPolls : Poll[] = [
-    {
-      question: "Cat or Dog?",
-      options: ["Cat", "Dog"]
-    },
-    {
-      question: "Best operating system?",
-      options: ["Windows", "Mac", "Linux"]
-    },
-    {
-      question: "Favorite Color?",
-      options: ["Blue", "Green", "Red", "Yellow", "Purple", "Orange"]
-    }
-  ];
-  dummyAccounts : Account[] = [
-    {
-      username: "Joe",
-      password_hash: "aaa"
-    }
-  ];
-
-  
   
   constructor(private svc: PollService) {}
   message : String = "Welcome to Pollio :O";
@@ -95,10 +73,30 @@ export class PollComponent {
 
   createDummyData(){
     console.log("Creating dummy data...");
-    this.dummyAccounts.forEach(dummyAccount => {
+    const dummyAccounts : Account[] = [
+    {
+      username: "Joe",
+      password_hash: "aaa"
+    }
+  ];
+   const dummyPolls : Poll[] = [
+    {
+      question: "Cat or Dog?",
+      options: ["Cat", "Dog"]
+    },
+    {
+      question: "Best operating system?",
+      options: ["Windows", "Mac", "Linux"]
+    },
+    {
+      question: "Favorite Color?",
+      options: ["Blue", "Green", "Red", "Yellow", "Purple", "Orange"]
+    }
+  ];
+    dummyAccounts.forEach(dummyAccount => {
       this.createNewAccount(dummyAccount);
     });
-    this.dummyPolls.forEach(dummyPoll => {
+    dummyPolls.forEach(dummyPoll => {
       this.createNewPoll(dummyPoll)
     });
   }

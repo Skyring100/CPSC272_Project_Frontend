@@ -12,6 +12,8 @@ export class PollService {
   private accountAPI = `${environment.apiUrl}/accounts`;
   constructor(private http: HttpClient) {}
 
+  // Polls
+
   getPoll(): Observable<Poll[]> {
     return this.http.get<Poll[]>(this.pollAPI);
   }
@@ -25,7 +27,19 @@ export class PollService {
     return this.http.delete<{ ok: boolean }>(`${this.pollAPI}/${id}`);
   }
   
+
+  // Account
+
+  getAccount(): Observable<Account[]> {
+    return this.http.get<Account[]>(this.accountAPI);
+  }
   addAccount(acc: Account){
-    return this.http.post<Poll>(this.accountAPI, acc);
+    return this.http.post<Account>(this.accountAPI, acc);
+  }
+  updateAccount(uuid: number, a: Account): Observable<Poll> {
+    return this.http.put<Account>(`${this.accountAPI}/${uuid}`, a);
+  }
+  deleteAccount(uuid : number){
+    return this.http.delete<{ ok: boolean }>(`${this.accountAPI}/${uuid}`);
   }
 }
