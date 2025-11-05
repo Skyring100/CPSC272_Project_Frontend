@@ -51,6 +51,7 @@ export class PollComponent {
     this.loading = true;
     this.svc.getPollWithOptions().subscribe({
       next: rows => {
+        console.log(rows);
         // For each joined Poll-Option row, 
         for (let i = 0; i < rows.length; i++) {
           // Assign basic poll data
@@ -70,8 +71,12 @@ export class PollComponent {
             createdPoll.options.push(nextOption.content);
             // Get the next row of poll-option data
             i++;
+            // Check if we at the end of poll with options table. If so, we can skip to being done
+            if(i == rows.length) break;
             nextOption = rows[i];
           } while (nextOption.poll_id == createdPoll.poll_id);
+          // Once we are done with this poll's options, we must move index back by one to account for next poll's options
+          i--;
           this.allPolls.push(createdPoll);
         }
       },
