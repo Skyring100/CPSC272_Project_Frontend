@@ -2,3 +2,26 @@
 body {
     background-color: whitesmoke;
 }
+
+ul.header_button {
+    position: sticky;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    
+}
+
+ul.header_button li {
+    float: unset;
+}
+
+ul.header_button li a {
+    display: block;
+    color: aliceblue;
+    background-color: #17121f;
+    text-align: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding: 20px 25px;
+    border-radius: 50px;
+}
