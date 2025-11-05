@@ -1,12 +1,19 @@
-<div>
-  <base href="/account">
 
-  <div *ngIf="currentUser==undefined" class="log_in">
-    <p>Please log in or sign up</p>
-    
-  </div>
-  <div *ngIf="currentUser!=undefined" class="hello_user">
-    <p>{{currentUser}}</p>
-    <p>Hallo</p>
-  </div>
+<div>
+  <form>
+    <ul>
+      <li>
+        <label for="login-username">Username</label>
+        <input type="text" id="login-username" name="login-username">
+      </li>
+      <li>
+        <label for="login-password">Password</label>
+        <input type="password" id="login-password" name="login-password">
+      </li>
+      <br>
+      <li>
+        <input type="submit" value="Log In">
+      </li>
+    </ul>
+  </form>
 </div>

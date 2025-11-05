@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 import { AccountComponent } from './account.component';
+import { SummaryComponent } from './summary.component';
+import { SignUpComponent } from './signup.component';
 import { PollComponent } from './poll.component';
 
 export const routes: Routes = [
@@ -11,8 +13,8 @@ export const routes: Routes = [
     // { path: 'account/:id', component: AccountComponent, title: 'Account' },
 
     // What we currrently have
-    { path: 'summary', component: AccountComponent, title: 'Account Summary' },
-    { path: 'signup', component: AccountComponent, title: 'Sign Up' },
+    { path: 'summary', component: SummaryComponent, title: 'Account Summary' },
+    { path: 'signup', component: SignUpComponent, title: 'Sign Up' },
     { path: 'login', component: AccountComponent, title: 'Log In' },
     { path: 'poll', component: PollComponent, title: 'Polls' },
 
