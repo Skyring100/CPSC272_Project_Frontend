@@ -1,4 +1,5 @@
 <div>
+  <base href="/account">
 
   <div *ngIf="currentUser==undefined" class="log_in">
     <p>Please log in or sign up</p>
@@ -6,5 +7,6 @@
   </div>
   <div *ngIf="currentUser!=undefined" class="hello_user">
     <p>{{currentUser}}</p>
+    <p>Hallo</p>
   </div>
 </div>

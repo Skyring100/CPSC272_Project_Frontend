@@ -11,7 +11,9 @@ export const routes: Routes = [
     // { path: 'account/:id', component: AccountComponent, title: 'Account' },
 
     // What we currrently have
-    { path: 'account', component: AccountComponent, title: 'Account' },
+    { path: 'summary', component: AccountComponent, title: 'Account Summary' },
+    { path: 'signup', component: AccountComponent, title: 'Sign Up' },
+    { path: 'login', component: AccountComponent, title: 'Log In' },
     { path: 'poll', component: PollComponent, title: 'Polls' },
 
     // This last one is the wildcard route, we should probably define a simple
