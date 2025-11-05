@@ -4,12 +4,14 @@ import { Observable } from 'rxjs';
 import { Poll } from '../models/poll.model';
 import { environment } from '../../environments/environment';
 import { Account } from '../models/account.model';
+import { PollWithOptions } from '../models/pollWithOptions.model';
 
 @Injectable({ providedIn: 'root' })
 export class PollService {
   //This class is for interfacing with the backend. Our app.component.ts will call these methods by creating an instance of this class
   private pollAPI = `${environment.apiUrl}/polls`;
   private accountAPI = `${environment.apiUrl}/accounts`;
+  private pollWithOptionsAPI = `${environment.apiUrl}/pollWithOptions`;
   constructor(private http: HttpClient) {}
 
   // Polls
@@ -26,7 +28,6 @@ export class PollService {
   deletePoll(id: number): Observable<{ ok: boolean }> {
     return this.http.delete<{ ok: boolean }>(`${this.pollAPI}/${id}`);
   }
-  
 
   // Account
 
@@ -41,5 +42,11 @@ export class PollService {
   }
   deleteAccount(uuid : number){
     return this.http.delete<{ ok: boolean }>(`${this.accountAPI}/${uuid}`);
+  }
+
+
+  // POLL-OPTIONS
+  getPollWithOptions(): Observable<PollWithOptions[]>{
+    return this.http.get<PollWithOptions[]>(this.pollWithOptionsAPI);
   }
 }
