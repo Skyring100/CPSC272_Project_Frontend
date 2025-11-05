@@ -1,25 +1,6 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <style>
-    titleBar {
-      display: flex;
-      background-color: whitesmoke;
-      border-style: hidden hidden solid hidden;
-      border-width: thin;
-    }
-    titleBar li {
-      list-style: none;
-    }
-    titleBar li a {
-        display: block;
-        color: white;
-        text-align: center;
-        padding: 14px 16px;
-        text-decoration: none;
-        background-color: black;
-    }
-  </style>
   <meta charset="utf-8">
   <title>Frontend</title>
   <base href="/">
@@ -27,8 +8,17 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
+
+  <!-- Navigation Bar and Home button -->
   <div>
-    <titleBar><a href="#index">Test</a></titleBar>
+    <nav>
+      <ul class="header_button">
+        <li class="header_button"; style="float: left"><a href="#index">POLL.IO</a></li>
+        <li class="header_button"; style="float: right"><a href="/account">Login</a></li>
+        <li class="header_button"; style="float: right"><a href="/account">Sign Up</a></li>
+      </ul>
+    </nav>
+    
   </div>
   <div>
     <app-root></app-root>

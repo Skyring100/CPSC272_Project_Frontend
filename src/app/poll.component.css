@@ -7,6 +7,10 @@
     margin: auto;
     margin-top: 10px;
     padding: 10px;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scroll-snap-align: start none;
+    scroll-margin-block: 10px;
 }
 
 .poll_question {
