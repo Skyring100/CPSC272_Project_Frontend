@@ -4,6 +4,7 @@ import { Poll } from './models/poll.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Account } from './models/account.model';
+import { PollWithOptions } from './models/pollWithOptions.model';
 
 
 @Component({
@@ -44,14 +45,46 @@ export class PollComponent {
     ];
   }
     */
-  //This is basically what we will dow when backend is done
+  // This is basically what we will dow when backend is done
   load() {
     console.log("Loading Polls...")
     this.loading = true;
-    this.svc.getPoll().subscribe({
-      next: rows => this.allPolls = rows,
+    this.svc.getPollWithOptions().subscribe({
+      next: rows => {
+        console.log(rows);
+        // For each joined Poll-Option row, 
+        for (let i = 0; i < rows.length; i++) {
+          // Assign basic poll data
+          var newPollData : PollWithOptions = rows[i];
+          var createdPoll : Poll = {
+            poll_id : newPollData.poll_id,
+            question : newPollData.question,
+            options : []
+          };
+          console.log(createdPoll);
+          // Now we need to add the options
+          var nextOption : PollWithOptions = newPollData;
+          do {
+            if(createdPoll.options == undefined) throw new Error("Created poll options is not defined???");
+            if(nextOption.content == undefined) throw new Error("Option content is undefined???");
+            console.log(nextOption.content)
+            createdPoll.options.push(nextOption.content);
+            // Get the next row of poll-option data
+            i++;
+            // Check if we at the end of poll with options table. If so, we can skip to being done
+            if(i == rows.length) break;
+            nextOption = rows[i];
+          } while (nextOption.poll_id == createdPoll.poll_id);
+          // Once we are done with this poll's options, we must move index back by one to account for next poll's options
+          i--;
+          this.allPolls.push(createdPoll);
+        }
+      },
       error: () => this.message = 'Load failed',
-      complete: () => this.loading = false
+      complete: () => {
+        this.loading = false;
+        console.log(this.allPolls);
+      }
     });
   }
 
