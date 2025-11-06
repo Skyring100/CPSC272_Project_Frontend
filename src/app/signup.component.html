@@ -3,11 +3,11 @@
     <ul>
       <li>
         <label for="signup-username">Username</label>
-        <input type="text" id="signup-username" name="signup-username">
+        <input type="text" id="signup-username" name="signup-username" [(ngModel)]="usernameField">
       </li>
       <li>
         <label for="signup-password">Password</label>
-        <input type="password" id="signup-password" name="signup-password">
+        <input type="password" id="signup-password" name="signup-password" [(ngModel)]="passwordField">
       </li>
       <li>
         <label for="signup-password-confirmation">Retype Password</label>
@@ -15,8 +15,16 @@
       </li>
       <br>
       <li>
-        <input type="submit" value="Sign Up">
+        <button (click)="signUp()">Submit</button>
       </li>
+      @if (accountCreateSuccess == true){
+        <p>Account {{usernameField}} Created!!</p>
+      }
+      @else if (accountCreateSuccess == false){
+        <p>Something went wrong in account creation</p>
+      }
+
+
     </ul>
   </form>
 </div>
