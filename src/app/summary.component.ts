@@ -14,5 +14,9 @@ import { PollWithOptions } from './models/pollWithOptions.model';
   styleUrls: ['./summary.component.css']
 })
 export class SummaryComponent {
-
+  currentAccount : Account | undefined;
+  constructor(private svc: PollService) {}
+  ngOnInit(){
+    this.currentAccount = history.state;
+  }
 }

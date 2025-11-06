@@ -3,11 +3,11 @@
     <ul>
       <li>
         <label for="signup-username">Username</label>
-        <input type="text" id="signup-username" name="signup-username">
+        <input type="text" id="signup-username" name="signup-username" [(ngModel)]="usernameField">
       </li>
       <li>
         <label for="signup-password">Password</label>
-        <input type="password" id="signup-password" name="signup-password">
+        <input type="password" id="signup-password" name="signup-password" [(ngModel)]="passwordField">
       </li>
       <li>
         <label for="signup-password-confirmation">Retype Password</label>
@@ -16,8 +16,17 @@
       </li>
       <br>
       <li>
-        <button type="submit">Sign Up</button>
+        <button (click)="signUp()">Submit</button>
       </li>
+      @if (accountCreateSuccess == true){
+        <!--This if block will never be shown anymore since if success we immedatbly go to account summary-->
+        <p>Account {{createdAccount?.username}} Created!!</p>
+      }
+      @else if (accountCreateSuccess == false){
+        <p>Something went wrong in account creation</p>
+      }
+
+
     </ul>
   </form>
 </div>
