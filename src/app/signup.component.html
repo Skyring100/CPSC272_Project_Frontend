@@ -18,7 +18,8 @@
         <button (click)="signUp()">Submit</button>
       </li>
       @if (accountCreateSuccess == true){
-        <p>Account {{usernameField}} Created!!</p>
+        <!--This if block will never be shown anymore since if success we immedatbly go to account summary-->
+        <p>Account {{createdAccount?.username}} Created!!</p>
       }
       @else if (accountCreateSuccess == false){
         <p>Something went wrong in account creation</p>

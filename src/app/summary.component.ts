@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { PollService } from './services/poll.services';
+import { Account } from './models/account.model';
 
 
 @Component({
@@ -11,5 +13,9 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./summary.component.css']
 })
 export class SummaryComponent {
-
+  currentAccount : Account | undefined;
+  constructor(private svc: PollService) {}
+  ngOnInit(){
+    this.currentAccount = history.state;
+  }
 }
