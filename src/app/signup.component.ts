@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { SignUp } from './models/signup.model';
 import { PollService } from './services/poll.services';
 import { Account } from './models/account.model';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-poll',
@@ -19,7 +17,7 @@ export class SignUpComponent {
   passwordField : string | undefined;
   confirmPasswordField : string | undefined;
   createdAccount : Account | undefined;
-  constructor(private svc: PollService, private router: Router) {}
+  constructor(private svc: PollService) {}
 
   signUp(){
     // Check if verify password filed matches password
@@ -42,7 +40,7 @@ export class SignUpComponent {
         this.createdAccount = newAccount;
         // Move user to account summary page
         console.log(this.createdAccount)
-        this.router.navigateByUrl('/summary', {state: newAccount});
+        localStorage.setItem('currentAccount', JSON.stringify(this.createdAccount)); 
       },
       error: _ => {
         this.accountCreateSuccess = false;

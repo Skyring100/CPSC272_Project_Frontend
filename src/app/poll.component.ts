@@ -15,36 +15,22 @@ import { PollWithOptions } from './models/pollWithOptions.model';
   styleUrls: ['./poll.component.css']
 })
 export class PollComponent {
+  currentAccount : Account | undefined;
   //This class provides methods and state that the app.component.html can directly call and access
   allPolls : Poll[] = [];
-  
-  constructor(private svc: PollService) {}
   message : String = "Welcome to Pollio :O";
   loading = false;
+  constructor(private svc: PollService) {}
+
+  ngOnInit(){
+    this.currentAccount = JSON.parse(localStorage.getItem('currentAccount') || '{}');
+  }
 
 
   select(selectedPoll: Poll, selectedOption: String){
     console.log("For the poll \""+selectedPoll.question+"\", you chose \""+selectedOption+"\"");
   }
-  /*
-  load(){
-    //dummy test to see if frontend work (we will switch this to actually using an http request to get data from database)
-    this.allPolls = [
-      {
-        question: "Cat or Dog?",
-        options: ["Cat", "Dog"]
-      },
-      {
-        question: "Best operating system?",
-        options: ["Windows", "Mac", "Linux"]
-      },
-      {
-        question: "Favorite Color?",
-        options: ["Blue", "Green", "Red", "Yellow", "Purple", "Orange"]
-      }
-    ];
-  }
-    */
+  
   // This is basically what we will dow when backend is done
   load() {
     console.log("Loading Polls...")
