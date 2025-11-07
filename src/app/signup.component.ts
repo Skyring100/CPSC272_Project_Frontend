@@ -23,12 +23,13 @@ export class SignUpComponent {
 
   signUp(){
     // Check if verify password filed matches password
-    if(this.passwordField != this.confirmPasswordField){
+    if(!(this.passwordField === this.confirmPasswordField)){
       // Passwords do not match, must let user know
       // TODO: LET USER KNOW PASSWORDS DONT MATCH
       console.log("Passwords do not match!");
       return;
     }
+
     const newAccount : Account = {
       username : this.usernameField,
       // NEED TO DO PROPER HASH. WE MIGHT NEED TO INSTALL 'bcrypt' LIBRARY TO DO THIS
