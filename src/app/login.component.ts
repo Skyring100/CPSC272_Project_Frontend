@@ -18,13 +18,15 @@ export class LogInComponent {
   usernameField : string | undefined;
   passwordField : string | undefined;
 
+  loginSuccess : boolean | undefined;
+
   constructor(private svc: PollService) {}
   ngOnInit(){
     this.currentAccount = JSON.parse(localStorage.getItem('currentAccount') || '{}');
     console.log("Current account: "+this.currentAccount?.username + " with uuid "+this.currentAccount?.uuid);
   }
 
-  signIn(){
+  logIn(){
     if(this.usernameField == undefined || this.passwordField == undefined){
       console.log("Username or password is blank");
       return;
@@ -36,11 +38,13 @@ export class LogInComponent {
         if(rows.length != 0){
           // We found their account to log in
           this.currentAccount = rows[0];
-          localStorage.setItem('currentAccount', JSON.stringify(this.currentAccount)); 
+          localStorage.setItem('currentAccount', JSON.stringify(this.currentAccount));
+          this.loginSuccess = true;
         }else{
           // There is no account with this username and password
-          // TODO:
+          // TODO: show user theses no account
           console.log("Could not find account");
+          this.loginSuccess = false;
         }
       },
       error: () => console.log("Error loggin in"),

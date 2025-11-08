@@ -12,8 +12,15 @@
       </li>
       <br>
       <li>
-        <input type="submit" value="Log In">
+        <button (click)="logIn()">Log In</button>
       </li>
     </ul>
+      @if (loginSuccess == true){
+        <!--This if block will never be shown anymore since if success we immedatbly go to account summary-->
+        <p>Account {{currentAccount?.username}} logged in!</p>
+      }
+      @else if (loginSuccess == false){
+        <p>Something went wrong in account log in</p>
+      }
   </form>
 </div>
