@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Account } from './models/account.model';
 import { Router } from '@angular/router';
+import { Option } from './models/option.model';
 
 
 @Component({
@@ -33,8 +34,8 @@ export class PollComponent {
   }
 
 
-  select(selectedPoll: Poll, selectedOption: String){
-    console.log("For the poll \""+selectedPoll.question+"\", you chose \""+selectedOption+"\"");
+  select(selectedPoll: Poll, selectedOption: Option){
+    console.log("For the poll \""+selectedPoll.question+"\", you chose \""+selectedOption.content+"\"");
     // Check if user is logged in
     if(this.currentAccount?.uuid == undefined){
       this.router.navigateByUrl('/signup');
@@ -48,12 +49,13 @@ export class PollComponent {
   }
   
   // This is basically what we will dow when backend is done
+
   load() {
     console.log("Loading Polls...")
     this.loading = true;
-    this.svc.getPollWithOptions().subscribe({
-      next: rows => {
-       this.allPolls = this.svc.reconstructPoll(rows);
+    this.svc.getPolls().subscribe({
+      next: polls => {
+        this.allPolls = polls;
       },
       error: () => console.log("There was a problem loading polls"),
       complete: () => {
@@ -62,6 +64,20 @@ export class PollComponent {
       }
     });
   }
+  // load() {
+  //   console.log("Loading Polls...")
+  //   this.loading = true;
+  //   this.svc.getPollWithOptions().subscribe({
+  //     next: rows => {
+  //      this.allPolls = this.svc.reconstructPoll(rows);
+  //     },
+  //     error: () => console.log("There was a problem loading polls"),
+  //     complete: () => {
+  //       this.loading = false;
+  //       console.log(this.allPolls);
+  //     }
+  //   });
+  // }
 
   togglePollCreation(){
     this.isCreatingPoll = !this.isCreatingPoll;
@@ -81,13 +97,18 @@ export class PollComponent {
 
   createNewPoll(){
     console.log("Creating a new poll in database...");
-    const newPoll : Poll = {
+
+    const newPoll : any = {
       question : this.questionField,
-      options : this.optionsFields
+      options : this.optionsFields,
+      uuid: this.currentAccount?.uuid
     }
+
     console.log(newPoll);
     this.svc.addPoll(newPoll).subscribe({
-      next: _ => {  },
+      next: _ => {
+        this.load(); // Refresh the poll list immediately when adding a new poll
+      },
       error: _ => { }
     });
   }
@@ -100,7 +121,7 @@ export class PollComponent {
       password_hash: "aaa"
     }
   ];
-   const dummyPolls : Poll[] = [
+   const dummyPolls : any[] = [
     {
       question: "Cat or Dog?",
       options: ["Cat", "Dog"],
@@ -120,9 +141,7 @@ export class PollComponent {
     });
     dummyPolls.forEach(dummyPoll => {
       this.questionField = dummyPoll.question;
-      if(dummyPoll.options){
-        this.optionsFields = dummyPoll.options;
-      }
+      this.optionsFields = dummyPoll.options;
       this.createNewPoll();
     });
     this.questionField = "";

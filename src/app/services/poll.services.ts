@@ -16,7 +16,7 @@ export class PollService {
 
   // Polls
 
-  getPoll(): Observable<Poll[]> {
+  getPolls(): Observable<Poll[]> {
     return this.http.get<Poll[]>(this.pollAPI);
   }
   addPoll(p: Poll): Observable<Poll> {
@@ -51,33 +51,33 @@ export class PollService {
   }
 
   // Reconstruction
-  reconstructPoll(rows : PollWithOptions[]) : Poll[]{
-        const allPolls : Poll[] = [];
-        // For each joined Poll-Option row, 
-        for (let i = 0; i < rows.length; i++) {
-          // Assign basic poll data
-          var newPollData : PollWithOptions = rows[i];
-          var createdPoll : Poll = {
-            poll_id : newPollData.poll_id,
-            question : newPollData.question,
-            options : []
-          };
-          // Now we need to add the options
-          var nextOption : PollWithOptions = newPollData;
-          do {
-            if(createdPoll.options == undefined) throw new Error("Created poll options is not defined???");
-            if(nextOption.content == undefined) throw new Error("Option content is undefined???");
-            createdPoll.options.push(nextOption.content);
-            // Get the next row of poll-option data
-            i++;
-            // Check if we at the end of poll with options table. If so, we can skip to being done
-            if(i == rows.length) break;
-            nextOption = rows[i];
-          } while (nextOption.poll_id == createdPoll.poll_id);
-          // Once we are done with this poll's options, we must move index back by one to account for next poll's options
-          i--;
-          allPolls.push(createdPoll);
-        }
-        return allPolls;
-  }
+  // reconstructPoll(rows : PollWithOptions[]) : Poll[]{
+  //       const allPolls : Poll[] = [];
+  //       // For each joined Poll-Option row, 
+  //       for (let i = 0; i < rows.length; i++) {
+  //         // Assign basic poll data
+  //         var newPollData : PollWithOptions = rows[i];
+  //         var createdPoll : Poll = {
+  //           poll_id : newPollData.poll_id,
+  //           question : newPollData.question,
+  //           options : []
+  //         };
+  //         // Now we need to add the options
+  //         var nextOption : PollWithOptions = newPollData;
+  //         do {
+  //           if(createdPoll.options == undefined) throw new Error("Created poll options is not defined???");
+  //           if(nextOption.content == undefined) throw new Error("Option content is undefined???");
+  //           createdPoll.options.push(nextOption.content);
+  //           // Get the next row of poll-option data
+  //           i++;
+  //           // Check if we at the end of poll with options table. If so, we can skip to being done
+  //           if(i == rows.length) break;
+  //           nextOption = rows[i];
+  //         } while (nextOption.poll_id == createdPoll.poll_id);
+  //         // Once we are done with this poll's options, we must move index back by one to account for next poll's options
+  //         i--;
+  //         allPolls.push(createdPoll);
+  //       }
+  //       return allPolls;
+  // }
 }
