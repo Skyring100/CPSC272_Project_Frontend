@@ -16,8 +16,12 @@ export class SignUpComponent {
   usernameField : string | undefined;
   passwordField : string | undefined;
   confirmPasswordField : string | undefined;
-  createdAccount : Account | undefined;
+  currentAccount : Account | undefined;
   constructor(private svc: PollService) {}
+  ngOnInit(){
+    this.currentAccount = JSON.parse(localStorage.getItem('currentAccount') || '{}');
+    console.log("Current account: "+this.currentAccount?.username + " with uuid "+this.currentAccount?.uuid);
+  }
 
   signUp(){
     // Check if verify password filed matches password
@@ -35,12 +39,10 @@ export class SignUpComponent {
       password_hash : this.passwordField
     };
     this.svc.addAccount(newAccount).subscribe({
-      next: _ => {
+      next: acc => {
         this.accountCreateSuccess = true;
-        this.createdAccount = newAccount;
-        // Move user to account summary page
-        console.log(this.createdAccount)
-        localStorage.setItem('currentAccount', JSON.stringify(this.createdAccount)); 
+        this.currentAccount = acc;
+        localStorage.setItem('currentAccount', JSON.stringify(this.currentAccount)); 
       },
       error: _ => {
         this.accountCreateSuccess = false;

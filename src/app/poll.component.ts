@@ -24,6 +24,7 @@ export class PollComponent {
 
   ngOnInit(){
     this.currentAccount = JSON.parse(localStorage.getItem('currentAccount') || '{}');
+    console.log("Current account: "+this.currentAccount?.username + " with uuid "+this.currentAccount?.uuid);
   }
 
 
@@ -38,33 +39,7 @@ export class PollComponent {
     this.svc.getPollWithOptions().subscribe({
       next: rows => {
         console.log(rows);
-        // For each joined Poll-Option row, 
-        for (let i = 0; i < rows.length; i++) {
-          // Assign basic poll data
-          var newPollData : PollWithOptions = rows[i];
-          var createdPoll : Poll = {
-            poll_id : newPollData.poll_id,
-            question : newPollData.question,
-            options : []
-          };
-          console.log(createdPoll);
-          // Now we need to add the options
-          var nextOption : PollWithOptions = newPollData;
-          do {
-            if(createdPoll.options == undefined) throw new Error("Created poll options is not defined???");
-            if(nextOption.content == undefined) throw new Error("Option content is undefined???");
-            console.log(nextOption.content)
-            createdPoll.options.push(nextOption.content);
-            // Get the next row of poll-option data
-            i++;
-            // Check if we at the end of poll with options table. If so, we can skip to being done
-            if(i == rows.length) break;
-            nextOption = rows[i];
-          } while (nextOption.poll_id == createdPoll.poll_id);
-          // Once we are done with this poll's options, we must move index back by one to account for next poll's options
-          i--;
-          this.allPolls.push(createdPoll);
-        }
+       this.allPolls = this.svc.reconstructPoll(rows);
       },
       error: () => this.message = 'Load failed',
       complete: () => {

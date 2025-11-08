@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { AccountComponent } from './account.component';
+import { LogInComponent } from './login.component';
 import { SummaryComponent } from './summary.component';
 import { SignUpComponent } from './signup.component';
 import { PollComponent } from './poll.component';
@@ -15,7 +15,7 @@ export const routes: Routes = [
     // What we currrently have
     { path: 'summary', component: SummaryComponent, title: 'Account Summary' },
     { path: 'signup', component: SignUpComponent, title: 'Sign Up' },
-    { path: 'login', component: AccountComponent, title: 'Log In' },
+    { path: 'login', component: LogInComponent, title: 'Log In' },
     { path: 'poll', component: PollComponent, title: 'Polls' },
 
     // This last one is the wildcard route, we should probably define a simple

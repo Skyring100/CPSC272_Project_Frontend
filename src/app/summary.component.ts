@@ -16,5 +16,6 @@ export class SummaryComponent {
   constructor(private svc: PollService) {}
   ngOnInit(){
     this.currentAccount = JSON.parse(localStorage.getItem('currentAccount') || '{}');
+    console.log("Current account: "+this.currentAccount?.username + " with uuid "+this.currentAccount?.uuid);
   }
 }

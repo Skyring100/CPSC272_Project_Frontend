@@ -31,7 +31,7 @@ export class PollService {
 
   // Account
 
-  getAccount(): Observable<Account[]> {
+  getAccount(username: string, passwordHash: string): Observable<Account[]> {
     return this.http.get<Account[]>(this.accountAPI);
   }
   addAccount(acc: Account){
@@ -48,5 +48,38 @@ export class PollService {
   // POLL-OPTIONS
   getPollWithOptions(): Observable<PollWithOptions[]>{
     return this.http.get<PollWithOptions[]>(this.pollWithOptionsAPI);
+  }
+
+  // Reconstruction
+  reconstructPoll(rows : PollWithOptions[]) : Poll[]{
+        const allPolls : Poll[] = [];
+        // For each joined Poll-Option row, 
+        for (let i = 0; i < rows.length; i++) {
+          // Assign basic poll data
+          var newPollData : PollWithOptions = rows[i];
+          var createdPoll : Poll = {
+            poll_id : newPollData.poll_id,
+            question : newPollData.question,
+            options : []
+          };
+          console.log(createdPoll);
+          // Now we need to add the options
+          var nextOption : PollWithOptions = newPollData;
+          do {
+            if(createdPoll.options == undefined) throw new Error("Created poll options is not defined???");
+            if(nextOption.content == undefined) throw new Error("Option content is undefined???");
+            console.log(nextOption.content)
+            createdPoll.options.push(nextOption.content);
+            // Get the next row of poll-option data
+            i++;
+            // Check if we at the end of poll with options table. If so, we can skip to being done
+            if(i == rows.length) break;
+            nextOption = rows[i];
+          } while (nextOption.poll_id == createdPoll.poll_id);
+          // Once we are done with this poll's options, we must move index back by one to account for next poll's options
+          i--;
+          allPolls.push(createdPoll);
+        }
+        return allPolls;
   }
 }
