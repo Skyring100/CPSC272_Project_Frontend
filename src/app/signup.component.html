@@ -1,4 +1,10 @@
 <div>
+  <div>
+  @if (currentAccount?.uuid){
+    <div>
+      <p>You are currently logged in as {{currentAccount?.username}}</p>
+    </div>
+  }
   <form>
     <ul>
       <li>
