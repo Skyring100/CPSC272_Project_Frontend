@@ -4,7 +4,6 @@ import { Poll } from './models/poll.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Account } from './models/account.model';
-import { PollWithOptions } from './models/pollWithOptions.model';
 
 
 @Component({
@@ -18,13 +17,18 @@ export class PollComponent {
   currentAccount : Account | undefined;
   //This class provides methods and state that the app.component.html can directly call and access
   allPolls : Poll[] = [];
-  message : String = "Welcome to Pollio :O";
   loading = false;
+
+  isCreatingPoll : boolean = false;
+  questionField : string | undefined;
+  optionsFields : string[] = ["", ""];
+
   constructor(private svc: PollService) {}
 
   ngOnInit(){
     this.currentAccount = JSON.parse(localStorage.getItem('currentAccount') || '{}');
     console.log("Current account: "+this.currentAccount?.username + " with uuid "+this.currentAccount?.uuid);
+    this.load();
   }
 
 
@@ -41,12 +45,20 @@ export class PollComponent {
         console.log(rows);
        this.allPolls = this.svc.reconstructPoll(rows);
       },
-      error: () => this.message = 'Load failed',
+      error: () => console.log("There was a problem loading polls"),
       complete: () => {
         this.loading = false;
         console.log(this.allPolls);
       }
     });
+  }
+
+  togglePollCreation(){
+    this.isCreatingPoll = !this.isCreatingPoll;
+  }
+
+  addOptionField(){
+    this.optionsFields?.push("");
   }
 
   createNewAccount(newAccount : Account){
@@ -57,8 +69,13 @@ export class PollComponent {
     });
   }
 
-  createNewPoll(newPoll : Poll){
+  createNewPoll(){
     console.log("Creating a new poll in database...");
+    const newPoll : Poll = {
+      question : this.questionField,
+      options : this.optionsFields
+    }
+    console.log(newPoll);
     this.svc.addPoll(newPoll).subscribe({
       next: _ => {  },
       error: _ => { }
@@ -91,7 +108,11 @@ export class PollComponent {
       this.createNewAccount(dummyAccount);
     });
     dummyPolls.forEach(dummyPoll => {
-      this.createNewPoll(dummyPoll)
+      this.questionField = dummyPoll.question;
+      if(dummyPoll.options){
+        this.optionsFields = dummyPoll.options;
+      }
+      this.createNewPoll();
     });
   }
 }

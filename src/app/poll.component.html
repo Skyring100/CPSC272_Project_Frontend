@@ -1,10 +1,23 @@
 <div class="main_page">
-
-
-  <p>{{ message }}</p>
-  <button (click)="load()">Load Polls</button>
-  <button (click)="createDummyData()">Create Dummy Polls</button>
-  <!--Main poll content-->
+  <button (click)="togglePollCreation()">Create Your Own Poll</button>
+  @if (isCreatingPoll){
+    <div>
+      <label for="question">Question</label>
+      <input type="text" id="question" name="question" [(ngModel)]="questionField">
+      <ul>
+        @for (op of optionsFields; track op; let i = $index) {
+          <li>
+            <label for="option">Option {{i+1}}:</label>
+            <input type="text" id="option" name="option" [(ngModel)]="optionsFields[i]">
+          </li>
+          <br>
+        }
+        <button (click)="addOptionField()">Add Option</button>
+      </ul>
+      <button (click)="createNewPoll()">Create Poll</button>
+    </div>
+  }
+  <!--Show all polls in the database-->
   <!--For every poll in in the loaded results, repeat this div element-->
   <div *ngFor="let poll of allPolls" class="poll_element">
     <p class="poll_question">{{ poll.question }}</p>
@@ -13,35 +26,4 @@
       <li class="poll_option"><button (click)="select(poll, option)">{{option}}</button></li>
     </ul>
   </div>
-  <div>
-  <footer>
-    <input type="button" value="Create Poll">
-    <br>
-    <ul>
-      <li>
-        <label for="option-1">Option 1:</label>
-        <input type="text" id="option-1" name="option-1">
-      </li>
-      <br>
-      <li>
-        <label for="option-2">Option 2:</label>
-        <input type="text" id="option-2" name="option-2">
-      </li>
-      <br>
-      <li>
-        <label for="option-3">Option 3:</label>
-        <input type="text" id="option-3" name="option-3">
-      </li>
-      <br>
-      <li>
-        <label for="option-4">Option 4:</label>
-        <input type="text" id="option-4" name="option-4">
-      </li>
-      <br>
-      <input type="submit" value="Submit Poll">
-    </ul>
-  </footer>
-  </div>
-
-  
 </div>
