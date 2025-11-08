@@ -4,6 +4,7 @@ import { Poll } from './models/poll.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Account } from './models/account.model';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -23,7 +24,7 @@ export class PollComponent {
   questionField : string | undefined;
   optionsFields : string[] = ["", ""];
 
-  constructor(private svc: PollService) {}
+  constructor(private svc: PollService, private router: Router) {}
 
   ngOnInit(){
     this.currentAccount = JSON.parse(localStorage.getItem('currentAccount') || '{}');
@@ -34,6 +35,16 @@ export class PollComponent {
 
   select(selectedPoll: Poll, selectedOption: String){
     console.log("For the poll \""+selectedPoll.question+"\", you chose \""+selectedOption+"\"");
+    // Check if user is logged in
+    if(this.currentAccount?.uuid == undefined){
+      this.router.navigateByUrl('/signup');
+    }else{
+      // TODO: Send vote to database
+      console.log("Sending vote...");
+
+      // TODO: If vote was successful, display the results
+
+    }
   }
   
   // This is basically what we will dow when backend is done
@@ -42,7 +53,6 @@ export class PollComponent {
     this.loading = true;
     this.svc.getPollWithOptions().subscribe({
       next: rows => {
-        console.log(rows);
        this.allPolls = this.svc.reconstructPoll(rows);
       },
       error: () => console.log("There was a problem loading polls"),
@@ -93,7 +103,8 @@ export class PollComponent {
    const dummyPolls : Poll[] = [
     {
       question: "Cat or Dog?",
-      options: ["Cat", "Dog"]
+      options: ["Cat", "Dog"],
+      uuid : 2
     },
     {
       question: "Best operating system?",
@@ -114,5 +125,7 @@ export class PollComponent {
       }
       this.createNewPoll();
     });
+    this.questionField = "";
+    this.optionsFields = ["", ""];
   }
 }

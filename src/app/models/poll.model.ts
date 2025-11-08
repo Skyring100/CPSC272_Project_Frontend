@@ -3,5 +3,5 @@ export interface Poll {
   poll_id?: number;
   question?: string;
   options?: string[];
-  uuid?: string;
+  uuid?: number;
 }

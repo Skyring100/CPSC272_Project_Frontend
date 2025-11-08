@@ -34,13 +34,13 @@ export class PollService {
   getAccount(username: string, passwordHash: string): Observable<Account[]> {
     return this.http.get<Account[]>(`${this.accountAPI}/${username}`);
   }
-  addAccount(acc: Account){
+  addAccount(acc: Account) : Observable<Account>{
     return this.http.post<Account>(this.accountAPI, acc);
   }
-  updateAccount(uuid: number, a: Account): Observable<Poll> {
+  updateAccount(uuid: number, a: Account): Observable<Account> {
     return this.http.put<Account>(`${this.accountAPI}/${uuid}`, a);
   }
-  deleteAccount(uuid : number){
+  deleteAccount(uuid : number): Observable<{ ok: boolean }>{
     return this.http.delete<{ ok: boolean }>(`${this.accountAPI}/${uuid}`);
   }
 
@@ -62,13 +62,11 @@ export class PollService {
             question : newPollData.question,
             options : []
           };
-          console.log(createdPoll);
           // Now we need to add the options
           var nextOption : PollWithOptions = newPollData;
           do {
             if(createdPoll.options == undefined) throw new Error("Created poll options is not defined???");
             if(nextOption.content == undefined) throw new Error("Option content is undefined???");
-            console.log(nextOption.content)
             createdPoll.options.push(nextOption.content);
             // Get the next row of poll-option data
             i++;
