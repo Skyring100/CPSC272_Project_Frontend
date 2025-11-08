@@ -34,17 +34,35 @@ export class PollComponent {
   }
 
 
-  select(selectedPoll: Poll, selectedOption: Option){
-    console.log("For the poll \""+selectedPoll.question+"\", you chose \""+selectedOption.content+"\"");
-    // Check if user is logged in
-    if(this.currentAccount?.uuid == undefined){
-      this.router.navigateByUrl('/signup');
-    }else{
-      // TODO: Send vote to database
-      console.log("Sending vote...");
+  select(selectedPoll: Poll, selectedOption: Option) {
+    // if (!this.currentAccount?.uuid) {
+    //   this.router.navigateByUrl('/signup');
+    //   return;
+    // }
 
-      // TODO: If vote was successful, display the results
+    if (selectedPoll.user_vote) {
+      console.log('User has already voted in this poll.');
+      return;
+    }
 
+    if (selectedPoll.poll_id && selectedOption.option_id) {
+      this.svc.castVote({
+        uuid: 2,
+        poll_id: selectedPoll.poll_id,
+        option_id: selectedOption.option_id,
+      }).subscribe({
+        next: () => {
+          selectedPoll.user_vote = selectedOption.option_id;
+          selectedOption.vote_count = (selectedOption.vote_count || 0) + 1;
+        },
+        error: (err) => {
+          if (err.status === 409) {
+            console.log('User has already voted in this poll.');
+          } else {
+            console.error('Error casting vote:', err);
+          }
+        }
+      });
     }
   }
   
@@ -108,6 +126,8 @@ export class PollComponent {
     this.svc.addPoll(newPoll).subscribe({
       next: _ => {
         this.load(); // Refresh the poll list immediately when adding a new poll
+        this.questionField = "";
+        this.optionsFields = ["", ""];
       },
       error: _ => { }
     });
@@ -125,7 +145,7 @@ export class PollComponent {
     {
       question: "Cat or Dog?",
       options: ["Cat", "Dog"],
-      uuid : 2
+      uuid : 3
     },
     {
       question: "Best operating system?",

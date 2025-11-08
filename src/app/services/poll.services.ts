@@ -12,6 +12,7 @@ export class PollService {
   private pollAPI = `${environment.apiUrl}/polls`;
   private accountAPI = `${environment.apiUrl}/accounts`;
   private pollWithOptionsAPI = `${environment.apiUrl}/pollWithOptions`;
+  private voteAPI = `${environment.apiUrl}/vote`;
   constructor(private http: HttpClient) {}
 
   // Polls
@@ -42,6 +43,10 @@ export class PollService {
   }
   deleteAccount(uuid : number): Observable<{ ok: boolean }>{
     return this.http.delete<{ ok: boolean }>(`${this.accountAPI}/${uuid}`);
+  }
+
+  castVote(voteData: { uuid: number; poll_id: number; option_id: number }): Observable<any> {
+    return this.http.post(this.voteAPI, voteData);
   }
 
 

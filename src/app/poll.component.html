@@ -5,7 +5,7 @@
       <label for="question">Question</label>
       <input type="text" id="question" name="question" [(ngModel)]="questionField">
       <ul>
-        @for (op of optionsFields; track op; let i = $index) {
+        @for (op of optionsFields; track i; let i = $index) {
           <li>
             <label for="option">Option {{i+1}}:</label>
             <input type="text" id="option" name="option" [(ngModel)]="optionsFields[i]">
@@ -25,7 +25,11 @@
     <p class="poll_question">{{ poll.question }}</p>
     <!--For every option inside this poll, repeat this list element-->
     <ul *ngFor="let option of poll.options">
-      <li class="poll_option"><button (click)="select(poll, option)">{{option.content}}</button></li>
+      <li class="poll_option" [class.user-voted]="poll.user_vote === option.option_id">
+        <button (click)="select(poll, option)">
+          {{option.content}} - {{option.vote_count}}
+        </button>
+      </li>
     </ul>
   </div>
 </div>
