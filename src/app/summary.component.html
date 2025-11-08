@@ -1,9 +1,15 @@
 <div>
-    Username: | Polls Made: | Polls Done:
+    Username: {{currentAccount?.username}} | Polls Made: | Polls Done:
+    <button (click)="toggleShowAccountEditOptions()">Account Edit Options</button>
+    @if(showAccountEditOptions){
+        <div>
+            
+            <button (click)="deleteCurrentAccount()">Delete Current Account</button>
+        </div>
+    }
 </div>
 <div>
     <h1>User's Polls Go Here</h1>
     <!-- When instantiating the polls, need to also add the removal button to all of them -->
     <button type="submit">Delete</button>
 </div>
-<p>Welcome {{currentAccount?.username}} </p>
