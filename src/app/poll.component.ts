@@ -103,7 +103,7 @@ export class PollComponent {
     const newPoll : any = {
       question : this.questionField,
       options : this.optionsFields,
-      uuid: 1
+      uuid: this.currentAccount?.uuid
     }
 
     this.pollSvc.addPoll(newPoll).subscribe({

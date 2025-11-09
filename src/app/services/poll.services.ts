@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Poll } from '../models/poll.model';
 import { environment } from '../../environments/environment';
+import { Account } from '../models/account.model';
 
 @Injectable({ providedIn: 'root' })
 export class PollService {
@@ -22,9 +23,12 @@ export class PollService {
   updatePoll(id: number, p: Poll): Observable<Poll> {
     return this.http.put<Poll>(`${this.pollAPI}/${id}`, p);
   }
+  deletePoll(poll_id: number): Observable<{ ok: boolean }> {
+    return this.http.delete<{ ok: boolean }>(`${this.pollAPI}/${poll_id}`);
+  }
 
-  deletePoll(id: number): Observable<{ ok: boolean }> {
-    return this.http.delete<{ ok: boolean }>(`${this.pollAPI}/${id}`);
+  getPollsFromAccount(uuid: number){
+    return this.http.get<Account[]>(`${this.pollAPI}/${uuid}`);
   }
 
   castVote(voteData: { uuid: number; poll_id: number; option_id: number }): Observable<any> {

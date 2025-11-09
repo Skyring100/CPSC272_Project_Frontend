@@ -19,10 +19,10 @@
     <!--All polls created by this user-->
     <div *ngFor="let poll of allUserPolls" class="poll_element">
         <p class="poll_question">{{ poll.question }}</p>
-        <button (click)="deletePoll(poll)">Delete</button>
         <!--For every option inside this poll, repeat this list element-->
         <ul *ngFor="let option of poll.options">
         <li class="poll_option"><button (click)="select(poll, option)">{{option.content}}</button></li>
         </ul>
+        <button (click)="deletePoll(poll)">Delete</button>
     </div>
 </div>

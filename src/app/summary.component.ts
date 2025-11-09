@@ -37,8 +37,25 @@ export class SummaryComponent {
       // Take user to sign up page
       this.router.navigateByUrl("/signup");
     }else{
-      // Get all polls made by this user and get all get all votes from this user
+      this.getCurrentAccountPolls();
+    }
+  }
 
+  getCurrentAccountPolls(){
+    if(this.currentAccount?.uuid == undefined){
+      console.error("Current account has no UUID!");
+    }else{
+    this.pollSvc.getPollsFromAccount(this.currentAccount.uuid).subscribe({
+        next: polls => {
+          this.allUserPolls = polls;
+        },
+        error: () => {
+
+        },
+        complete: () => {
+          console.log(this.allUserPolls);
+        }
+      });
     }
   }
 
@@ -77,6 +94,7 @@ export class SummaryComponent {
           this.currentAccount = {}
           localStorage.clear();
           console.log("Account Successfully Deleted");
+          this.router.navigateByUrl("/signup");
         },
         error: _ => console.error("Delete failed")
       });
@@ -99,10 +117,22 @@ export class SummaryComponent {
   }
 
   deletePoll(p : Poll){
-    if(p.uuid == undefined){
-      console.error("Poll UUID is undefined");
+    if(p.poll_id == undefined){
+      console.error("Poll id is undefined");
     }else{
-      this.pollSvc.deletePoll(p.uuid);
+      this.pollSvc.deletePoll(p.poll_id).subscribe({
+        next: isDeleted => {
+          if(isDeleted){
+            console.log("Deleted poll successfully");
+            this.getCurrentAccountPolls();
+          }else{
+            console.error("Poll deletion issue");
+          }
+        },
+        error: e => {
+          console.error("Error with deletion");
+        }
+      });
     }
   }
 
