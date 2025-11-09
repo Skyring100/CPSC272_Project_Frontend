@@ -96,4 +96,9 @@ export class SummaryComponent {
       this.svc.deletePoll(p.uuid);
     }
   }
+
+  logOut(){
+    this.currentAccount = {};
+    localStorage.clear();
+  }
 }

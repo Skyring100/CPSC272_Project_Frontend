@@ -65,8 +65,6 @@ export class PollComponent {
       });
     }
   }
-  
-  // This is basically what we will dow when backend is done
 
   load() {
     this.loading = true;

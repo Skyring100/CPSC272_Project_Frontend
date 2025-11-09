@@ -1,5 +1,6 @@
 <div>
     <p> Username: {{currentAccount?.username}} | Polls Made: | Polls Done: </p>
+    <button (click)="logOut()">Log Out</button>
     <button (click)="toggleShowAccountEditOptions()">Account Edit Options</button>
     @if(showAccountEditOptions){
         <div>

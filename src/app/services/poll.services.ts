@@ -33,7 +33,7 @@ export class PollService {
   // Account
 
   getAccount(username: string, passwordHash: string): Observable<Account[]> {
-    return this.http.get<Account[]>(`${this.accountAPI}/${username}`);
+    return this.http.get<Account[]>(`${this.accountAPI}/${username}/${passwordHash}`);
   }
   addAccount(acc: Account) : Observable<Account>{
     return this.http.post<Account>(this.accountAPI, acc);
