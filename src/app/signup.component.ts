@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { PollService } from './services/poll.services';
+import { AccountService } from './services/account.service';
 import { Account } from './models/account.model';
 
 @Component({
@@ -17,7 +17,9 @@ export class SignUpComponent {
   passwordField : string | undefined;
   confirmPasswordField : string | undefined;
   currentAccount : Account | undefined;
-  constructor(private svc: PollService) {}
+  
+  constructor(private svc: AccountService) {}
+  
   ngOnInit(){
     this.currentAccount = JSON.parse(localStorage.getItem('currentAccount') || '{}');
     console.log("Current account: "+this.currentAccount?.username + " with uuid "+this.currentAccount?.uuid);

@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { Account } from './models/account.model';
 import { Router } from '@angular/router';
 import { Option } from './models/option.model';
+import { AccountService } from './services/account.service';
 
 
 @Component({
@@ -25,7 +26,11 @@ export class PollComponent {
   questionField : string | undefined;
   optionsFields : string[] = ["", ""];
 
-  constructor(private svc: PollService, private router: Router) {}
+  constructor(
+    private pollSvc: PollService,
+    private accountSvc: AccountService,
+    private router: Router
+  ) {}
 
   ngOnInit(){
     this.currentAccount = JSON.parse(localStorage.getItem('currentAccount') || '{}');
@@ -46,7 +51,7 @@ export class PollComponent {
     }
 
     if (selectedPoll.poll_id && selectedOption.option_id) {
-      this.svc.castVote({
+      this.pollSvc.castVote({
         uuid: 3,
         poll_id: selectedPoll.poll_id,
         option_id: selectedOption.option_id,
@@ -68,7 +73,7 @@ export class PollComponent {
 
   load() {
     this.loading = true;
-    this.svc.getPolls().subscribe({
+    this.pollSvc.getPolls().subscribe({
       next: polls => {
         this.allPolls = polls;
       },
@@ -88,7 +93,7 @@ export class PollComponent {
   }
 
   createNewAccount(newAccount : Account){
-    this.svc.addAccount(newAccount).subscribe({
+    this.accountSvc.addAccount(newAccount).subscribe({
       next: _ => {  },
       error: _ => { }
     });
@@ -101,7 +106,7 @@ export class PollComponent {
       uuid: 1
     }
 
-    this.svc.addPoll(newPoll).subscribe({
+    this.pollSvc.addPoll(newPoll).subscribe({
       next: _ => {
         this.load(); // Refresh the poll list immediately when adding a new poll
         this.questionField = "";

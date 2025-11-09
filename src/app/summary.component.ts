@@ -6,6 +6,7 @@ import { Account } from './models/account.model';
 import { Router } from '@angular/router';
 import { Poll } from './models/poll.model';
 import { Option } from './models/option.model';
+import { AccountService } from './services/account.service';
 
 @Component({
   selector: 'app-poll',
@@ -20,7 +21,15 @@ export class SummaryComponent {
 
   showAccountEditOptions : boolean = false;
   newUsernameField : string | undefined;
-  constructor(private svc: PollService, private router : Router) {}
+  
+  
+  constructor(
+    private pollSvc: PollService,
+    private accountSvc: AccountService,
+    private router : Router
+  ) {}
+  
+  
   ngOnInit(){
     this.currentAccount = JSON.parse(localStorage.getItem('currentAccount') || '{}');
     console.log("Current account: "+this.currentAccount?.username + " with uuid "+this.currentAccount?.uuid);
@@ -46,7 +55,7 @@ export class SummaryComponent {
         username : this.newUsernameField,
         password_hash : this.currentAccount.password_hash
       };
-      this.svc.updateAccount(this.currentAccount.uuid, updatedAccount).subscribe({
+      this.accountSvc.updateAccount(this.currentAccount.uuid, updatedAccount).subscribe({
         next: acc => {
           this.currentAccount = acc;
           localStorage.setItem('currentAccount', JSON.stringify(this.currentAccount));
@@ -63,7 +72,7 @@ export class SummaryComponent {
     if(this.currentAccount?.uuid == undefined){
       console.error("Current account has undefined UUID");
     }else{
-      this.svc.deleteAccount(this.currentAccount.uuid).subscribe({
+      this.accountSvc.deleteAccount(this.currentAccount.uuid).subscribe({
         next: _ => {
           this.currentAccount = {}
           localStorage.clear();
@@ -93,7 +102,7 @@ export class SummaryComponent {
     if(p.uuid == undefined){
       console.error("Poll UUID is undefined");
     }else{
-      this.svc.deletePoll(p.uuid);
+      this.pollSvc.deletePoll(p.uuid);
     }
   }
 

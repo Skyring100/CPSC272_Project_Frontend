@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Account } from './models/account.model';
-import { PollService } from './services/poll.services';
+import { AccountService } from './services/account.service';
 
 
 @Component({
@@ -20,7 +20,8 @@ export class LogInComponent {
 
   loginSuccess : boolean | undefined;
 
-  constructor(private svc: PollService) {}
+  constructor(private svc: AccountService) {}
+  
   ngOnInit(){
     this.currentAccount = JSON.parse(localStorage.getItem('currentAccount') || '{}');
     console.log("Current account: "+this.currentAccount?.username + " with uuid "+this.currentAccount?.uuid);
