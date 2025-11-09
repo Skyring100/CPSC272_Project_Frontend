@@ -88,7 +88,6 @@ export class PollComponent {
   }
 
   createNewAccount(newAccount : Account){
-    console.log("Creating a new poll in database...");
     this.svc.addAccount(newAccount).subscribe({
       next: _ => {  },
       error: _ => { }
@@ -96,15 +95,12 @@ export class PollComponent {
   }
 
   createNewPoll(){
-    console.log("Creating a new poll in database...");
-
     const newPoll : any = {
       question : this.questionField,
       options : this.optionsFields,
       uuid: 1
     }
 
-    console.log(newPoll);
     this.svc.addPoll(newPoll).subscribe({
       next: _ => {
         this.load(); // Refresh the poll list immediately when adding a new poll
@@ -137,7 +133,6 @@ export class PollComponent {
   }
 
   createDummyData(){
-    console.log("Creating dummy data...");
     const dummyPolls : any[] = [
       {
         question: "Cat or Dog?",
