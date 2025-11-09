@@ -51,9 +51,9 @@ export class PollService {
 
 
   // POLL-OPTIONS
-  getPollWithOptions(): Observable<PollWithOptions[]>{
-    return this.http.get<PollWithOptions[]>(this.pollWithOptionsAPI);
-  }
+  // getPollWithOptions(): Observable<PollWithOptions[]>{
+  //   return this.http.get<PollWithOptions[]>(this.pollWithOptionsAPI);
+  // }
 
   // Reconstruction
   // reconstructPoll(rows : PollWithOptions[]) : Poll[]{

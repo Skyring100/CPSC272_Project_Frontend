@@ -47,7 +47,7 @@ export class PollComponent {
 
     if (selectedPoll.poll_id && selectedOption.option_id) {
       this.svc.castVote({
-        uuid: 2,
+        uuid: 3,
         poll_id: selectedPoll.poll_id,
         option_id: selectedOption.option_id,
       }).subscribe({
@@ -69,7 +69,6 @@ export class PollComponent {
   // This is basically what we will dow when backend is done
 
   load() {
-    console.log("Loading Polls...")
     this.loading = true;
     this.svc.getPolls().subscribe({
       next: polls => {
@@ -78,24 +77,9 @@ export class PollComponent {
       error: () => console.log("There was a problem loading polls"),
       complete: () => {
         this.loading = false;
-        console.log(this.allPolls);
       }
     });
   }
-  // load() {
-  //   console.log("Loading Polls...")
-  //   this.loading = true;
-  //   this.svc.getPollWithOptions().subscribe({
-  //     next: rows => {
-  //      this.allPolls = this.svc.reconstructPoll(rows);
-  //     },
-  //     error: () => console.log("There was a problem loading polls"),
-  //     complete: () => {
-  //       this.loading = false;
-  //       console.log(this.allPolls);
-  //     }
-  //   });
-  // }
 
   togglePollCreation(){
     this.isCreatingPoll = !this.isCreatingPoll;
@@ -119,7 +103,7 @@ export class PollComponent {
     const newPoll : any = {
       question : this.questionField,
       options : this.optionsFields,
-      uuid: this.currentAccount?.uuid
+      uuid: 1
     }
 
     console.log(newPoll);
@@ -133,32 +117,47 @@ export class PollComponent {
     });
   }
 
-  createDummyData(){
-    console.log("Creating dummy data...");
+  createDummyAccount(){
     const dummyAccounts : Account[] = [
-    {
-      username: "Joe",
-      password_hash: "aaa"
-    }
-  ];
-   const dummyPolls : any[] = [
-    {
-      question: "Cat or Dog?",
-      options: ["Cat", "Dog"],
-      uuid : 3
-    },
-    {
-      question: "Best operating system?",
-      options: ["Windows", "Mac", "Linux"]
-    },
-    {
-      question: "Favorite Color?",
-      options: ["Blue", "Green", "Red", "Yellow", "Purple", "Orange"]
-    }
-  ];
+      {
+        username: "Joe",
+        password_hash: "aaa"
+      },
+      {
+        username: "Bob",
+        password_hash: "aaa"
+      },
+      {
+        username: "Job",
+        password_hash: "aaa"
+      }
+    ]
+
     dummyAccounts.forEach(dummyAccount => {
       this.createNewAccount(dummyAccount);
     });
+  }
+
+  createDummyData(){
+    console.log("Creating dummy data...");
+    const dummyPolls : any[] = [
+      {
+        question: "Cat or Dog?",
+        options: ["Cat", "Dog"],
+        uuid : 3
+      },
+      {
+        question: "Best operating system?",
+        options: ["Windows", "Mac", "Linux"],
+        uuid : 2
+      },
+      {
+        question: "Favorite Color?",
+        options: ["Blue", "Green", "Red", "Yellow", "Purple", "Orange"],
+        uuid : 1
+      }
+    ];
+  
     dummyPolls.forEach(dummyPoll => {
       this.questionField = dummyPoll.question;
       this.optionsFields = dummyPoll.options;
