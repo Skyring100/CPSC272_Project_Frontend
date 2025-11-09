@@ -40,10 +40,11 @@ export class PollComponent {
 
 
   select(selectedPoll: Poll, selectedOption: Option) {
-    // if (!this.currentAccount?.uuid) {
-    //   this.router.navigateByUrl('/signup');
-    //   return;
-    // }
+    // If user is not logged in, prompt them to sign up
+    if (this.currentAccount?.uuid == undefined) {
+      this.router.navigateByUrl('/signup');
+      return;
+    }
 
     if (selectedPoll.user_vote) {
       console.log('User has already voted in this poll.');
