@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { PollComponent } from './poll.component';
+import { PollComponent } from './components/poll/poll.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -12,12 +12,6 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(PollComponent);
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
-  });
-
-  it(`should have the 'frontend' title`, () => {
-    const fixture = TestBed.createComponent(PollComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('frontend');
   });
 
   it('should render title', () => {

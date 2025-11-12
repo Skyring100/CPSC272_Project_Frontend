@@ -1,5 +1,8 @@
 <div class="main_page">
   <button (click)="togglePollCreation()">Create Your Own Poll</button>
+  @if (errorMessage) {
+    <p style="color: red;">{{ errorMessage }}</p>
+  }
   @if (isCreatingPoll){
     <div>
       <label for="question">Question</label>
@@ -16,8 +19,6 @@
       </ul>
       <button (click)="createNewPoll()">Create Poll</button>
     </div>
-
-    <button (click)="createDummyData()">Create Dummy Data</button>
   }
   <!--Show all polls in the database-->
   <!--For every poll in in the loaded results, repeat this div element-->
@@ -26,10 +27,11 @@
     <!--For every option inside this poll, repeat this list element-->
     <ul *ngFor="let option of poll.options">
       <li class="poll_option" [class.user-voted]="poll.user_vote === option.option_id">
-        <button (click)="select(poll, option)">
+        <button (click)="vote(poll, option)" [disabled]="poll.user_vote">
           {{option.content}} - {{option.vote_count}}
         </button>
       </li>
     </ul>
   </div>
+  <button (click)="loadMore()" [disabled]="loading">Load More</button>
 </div>

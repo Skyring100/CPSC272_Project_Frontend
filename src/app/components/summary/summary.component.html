@@ -1,0 +1,37 @@
+<div>
+    <p> Username: {{(user$ | async)?.username}} | Polls Made: {{userPolls.length}} | Polls Done: </p>
+
+    <button (click)="logOut()">Log Out</button>
+    <button (click)="deleteAccount()">Delete Account</button>
+
+    <button #editButton (click)="editOptions.hidden = !editOptions.hidden">
+        {{ editOptions.hidden ? 'Show' : 'Hide' }} Account Edit Options
+    </button>
+
+    @if (errorMessage) {
+      <p style="color: red;">{{ errorMessage }}</p>
+    }
+
+    <div #editOptions [hidden]="true">
+        <div>
+            <label for="current-password">Current Password</label>
+            <input type="password" id="current-password" name="current-password" [(ngModel)]="currentPassword">
+        </div>
+        <div>
+            <label for="new-password">New Password</label>
+            <input type="password" id="new-password" name="new-password" [(ngModel)]="newPassword">
+        </div>
+        <button (click)="updateAccount()">Update Password</button>
+    </div>
+</div>
+<div>
+    <div *ngFor="let poll of userPolls" class="poll_element">
+        <p class="poll_question">{{ poll.question }}</p>
+        <ul *ngFor="let option of poll.options">
+            <li class="poll_option" [class.user-voted]="poll.user_vote === option.option_id">
+                <button [disabled]="poll.user_vote">{{option.content}} - {{option.vote_count}}</button>
+            </li>
+        </ul>
+        <button (click)="deletePoll(poll)">Delete</button>
+    </div>
+</div>

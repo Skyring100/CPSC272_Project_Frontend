@@ -1,19 +1,18 @@
 import { Routes } from '@angular/router';
-import { LogInComponent } from './login.component';
-import { SummaryComponent } from './summary.component';
-import { SignUpComponent } from './signup.component';
-import { PollComponent } from './poll.component';
+import { LogInComponent } from './components/login/login.component';
+import { SummaryComponent } from './components/summary/summary.component';
+import { SignUpComponent } from './components/signup/signup.component';
+import { PollComponent } from './components/poll/poll.component';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
     // Currently redirecting our default landing page to /poll
     { path: '',    redirectTo: '/poll', pathMatch: 'full'  },
 
     // What we'll probably have in the future for account
-    // { path: 'account/new', component: AccountComponent, title: 'Account' },
-    // { path: 'account/:id', component: AccountComponent, title: 'Account' },
 
     // What we currrently have
-    { path: 'summary', component: SummaryComponent, title: 'Account Summary' },
+    { path: 'summary', component: SummaryComponent, title: 'Account Summary', canActivate: [authGuard] },
     { path: 'signup', component: SignUpComponent, title: 'Sign Up' },
     { path: 'login', component: LogInComponent, title: 'Log In' },
     { path: 'poll', component: PollComponent, title: 'Polls' },

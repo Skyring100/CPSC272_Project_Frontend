@@ -1,0 +1,22 @@
+
+<div>
+  <form>
+    <ul>
+      <li>
+        <label for="login-username">Username</label>
+        <input type="text" id="login-username" name="login-username" [(ngModel)]="usernameField">
+      </li>
+      <li>
+        <label for="login-password">Password</label>
+        <input type="password" id="login-password" name="login-password" [(ngModel)]="passwordField">
+      </li>
+      <br>
+        <button (click)="logIn()">Login</button>
+    </ul>
+    
+    @if (errorMessage) {
+      <p style="color: red;">{{ errorMessage }}</p>
+    }
+    
+  </form>
+</div>

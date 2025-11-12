@@ -1,0 +1,98 @@
+import { Component } from '@angular/core';
+import { PollService } from '../../services/poll.services';
+import { Poll } from '../../models/poll.model';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Option } from '../../models/option.model';
+import { AuthService } from '../../services/auth.service';
+
+
+@Component({
+  selector: 'app-poll',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  templateUrl: './poll.component.html',
+  styleUrls: ['./poll.component.css']
+})
+export class PollComponent {
+  allPolls: Poll[] = [];
+  questionField: string = '';
+  optionsFields: string[] = ['', ''];
+  errorMessage: string = '';
+  isCreatingPoll: boolean = false;
+  loading = false;
+  currentPage = 1;
+
+  constructor(
+    private pollSvc: PollService,
+    private auth: AuthService,
+  ) {}
+
+  ngOnInit(){
+    this.load();
+  }
+
+
+  vote(poll: Poll, option: Option) {
+    if (!this.auth.isAuthenticated || !poll.poll_id || !option.option_id)
+      return;
+
+    this.pollSvc.castVote({
+      poll_id: poll.poll_id,
+      option_id: option.option_id,
+    }).subscribe({
+      next: _ => {
+        poll.user_vote = option.option_id;
+        option.vote_count = option.vote_count + 1;
+      },
+      error: _ => {  }, // Not going to update the error message here, not useful
+    });
+  }
+
+  createNewPoll() {
+    if (!this.auth.isAuthenticated || !this.questionField || !this.optionsFields)
+      return;
+
+    const newPoll : any = {
+      question : this.questionField,
+      options : this.optionsFields,
+    }
+
+    this.pollSvc.addPoll(newPoll).subscribe({
+      next: _ => {
+        this.allPolls = [];
+        this.currentPage = 1;
+        this.questionField = "";
+        this.optionsFields = ["", ""];
+        this.isCreatingPoll = false;
+        this.load();
+      },
+      error: (err) => this.errorMessage = err.error?.message || 'Failed to create poll',
+    });
+  }
+
+  load() {
+    this.loading = true;
+    this.pollSvc.getAllPolls(this.currentPage).subscribe({
+      next: polls => this.allPolls.push(...polls),
+      error: (err) => this.errorMessage = err.error?.message || 'Failed to load polls',
+      complete: () => this.loading = false
+    });
+  }
+
+  loadMore() {
+    this.currentPage++;
+    this.load();
+  }
+
+  togglePollCreation() {
+    this.isCreatingPoll = !this.isCreatingPoll;
+  }
+
+  addOptionField() {
+    if (this.optionsFields.length < 8)
+      this.optionsFields?.push("");
+    else
+      this.errorMessage = 'Polls are limited to 8 options'
+  }
+}
