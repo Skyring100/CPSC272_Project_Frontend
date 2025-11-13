@@ -53,6 +53,10 @@ export class LogInComponent {
         console.log("Log in attempt finished");
       }
     });
+  }
 
+  logOut(){
+    localStorage.clear();
+    this.currentAccount = undefined;
   }
 }

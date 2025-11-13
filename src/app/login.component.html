@@ -3,6 +3,7 @@
   @if (currentAccount?.uuid){
     <div>
       <p>You are currently logged in as {{currentAccount?.username}}</p>
+      <button (click)="logOut()">Log Out</button>
     </div>
   }
   <form>
