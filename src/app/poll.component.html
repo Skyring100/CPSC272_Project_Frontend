@@ -26,7 +26,7 @@
     <!--For every option inside this poll, repeat this list element-->
     <ul *ngFor="let option of poll.options">
       <li class="poll_option" [class.user-voted]="poll.user_vote === option.option_id">
-        <button (click)="select(poll, option)">
+        <button (click)="voteOnPoll(poll, option)">
           {{option.content}} - {{option.vote_count}}
         </button>
       </li>

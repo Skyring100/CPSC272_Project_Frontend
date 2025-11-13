@@ -39,7 +39,7 @@ export class PollComponent {
   }
 
 
-  select(selectedPoll: Poll, selectedOption: Option) {
+  voteOnPoll(selectedPoll: Poll, selectedOption: Option) {
     // If user is not logged in, prompt them to sign up
     if (this.currentAccount?.uuid == undefined) {
       this.router.navigateByUrl('/signup');
@@ -86,6 +86,12 @@ export class PollComponent {
   }
 
   togglePollCreation(){
+    // If a user is not logged in and tries to show poll creation options, send them to the sign up page
+    if (this.currentAccount?.uuid == undefined) {
+      this.router.navigateByUrl('/signup');
+      return;
+    }
+    
     this.isCreatingPoll = !this.isCreatingPoll;
   }
 
@@ -101,6 +107,7 @@ export class PollComponent {
   }
 
   createNewPoll(){
+
     const newPoll : any = {
       question : this.questionField,
       options : this.optionsFields,
