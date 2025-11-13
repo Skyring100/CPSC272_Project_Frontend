@@ -23,15 +23,15 @@ export class PollService {
   }
 
   updatePollVisibility(id: number, is_visible: boolean): Observable<Poll> {
-    return this.http.patch<Poll>(`${this.pollAPI}/${id}/visibility`, { is_visible });
+    return this.http.patch<Poll>(`${this.pollAPI}/${id}`, { is_visible });
   }
 
-  deletePoll(id: number): Observable<{ ok: boolean }> {
-    return this.http.delete<{ ok: boolean }>(`${this.pollAPI}/${id}`);
+  deletePoll(id: number): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(`${this.pollAPI}/${id}`);
   }
 
 
-  castVote(voteData: { poll_id: number; option_id: number }): Observable<any> {
-    return this.http.post(this.voteAPI, voteData);
+  castVote(voteData: { poll_id: number; option_id: number }): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(this.voteAPI, voteData);
   }
 }

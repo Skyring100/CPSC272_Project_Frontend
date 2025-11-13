@@ -19,7 +19,6 @@ export class PollComponent {
   questionField: string = '';
   optionsFields: string[] = ['', ''];
   errorMessage: string = '';
-  isCreatingPoll: boolean = false;
   loading = false;
   currentPage = 1;
 
@@ -64,7 +63,6 @@ export class PollComponent {
         this.currentPage = 1;
         this.questionField = "";
         this.optionsFields = ["", ""];
-        this.isCreatingPoll = false;
         this.load();
       },
       error: (err) => this.errorMessage = err.error?.message || 'Failed to create poll',
@@ -83,10 +81,6 @@ export class PollComponent {
   loadMore() {
     this.currentPage++;
     this.load();
-  }
-
-  togglePollCreation() {
-    this.isCreatingPoll = !this.isCreatingPoll;
   }
 
   addOptionField() {

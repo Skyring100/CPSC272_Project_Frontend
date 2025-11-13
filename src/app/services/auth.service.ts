@@ -6,6 +6,10 @@ import { Account } from '../models/account.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  // Use 3 states instead of just 2 so we know the difference between
+  // not initialized and logged out. This simplifies the guard as we
+  // don't have to figure out the difference between them
+  // I.e. navigate to login after logout
   private userSubject = new BehaviorSubject<Account | null | undefined>(undefined);
   public user$ = this.userSubject.asObservable();
 
@@ -24,8 +28,8 @@ export class AuthService {
       .pipe(tap(user => this.userSubject.next(user)));
   }
 
-  logout(): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/logout`, {})
+  logout(): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${environment.apiUrl}/logout`, {})
       .pipe(tap(() => this.userSubject.next(null)));
   }
 

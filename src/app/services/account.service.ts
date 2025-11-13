@@ -16,11 +16,11 @@ export class AccountService {
   }
 
   updateAccount(passwords: { currentPassword?: string; newPassword?: string }): Observable<Account> {
-    return this.http.put<Account>(`${this.accountAPI}/update`, passwords);
+    return this.http.patch<Account>(`${this.accountAPI}/update`, passwords);
   }
 
-  deleteAccount(): Observable<{ ok: boolean }>{
-    return this.http.delete<{ ok: boolean }>(`${this.accountAPI}/delete`);
+  deleteAccount(): Observable<{ message: string }>{
+    return this.http.delete<{ message: string }>(`${this.accountAPI}/delete`);
   }
 
 

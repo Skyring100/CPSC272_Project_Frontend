@@ -38,7 +38,10 @@ export class SummaryComponent {
   }
 
   logOut() {
-    this.auth.logout().subscribe(() => this.router.navigate(['/login']));
+    this.auth.logout().subscribe({
+      next: _ => this.router.navigate(['/login']),
+      error: err => this.errorMessage = err.error?.message || 'logout failed',
+    });
   }
 
   updateAccount() {
@@ -46,7 +49,7 @@ export class SummaryComponent {
       currentPassword: this.currentPassword,
       newPassword: this.newPassword
     }).subscribe({
-      next: () => {
+      next: _ => {
         this.currentPassword = '';
         this.newPassword = '';
       },
