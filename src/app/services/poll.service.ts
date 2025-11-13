@@ -11,7 +11,6 @@ export class PollService {
 
   constructor(private http: HttpClient) {}
 
-  // Added paging support here and a temp button instead of a onHover div for now
   getAllPolls(page: number): Observable<Poll[]> {
     const params = new HttpParams().set('page', page.toString());
     return this.http.get<Poll[]>(`${this.pollAPI}/get`, { params });
