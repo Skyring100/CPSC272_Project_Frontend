@@ -10,7 +10,7 @@ import { AccountService } from './services/account.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css', './submission_forms.css']
 })
 export class LogInComponent {
   currentAccount : Account | undefined;

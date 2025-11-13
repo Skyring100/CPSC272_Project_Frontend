@@ -14,7 +14,7 @@ import { AccountService } from './services/account.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './poll.component.html',
-  styleUrls: ['./poll.component.css']
+  styleUrls: ['./poll.component.css','./submission_forms.css']
 })
 export class PollComponent {
   currentAccount : Account | undefined;
@@ -91,7 +91,7 @@ export class PollComponent {
       this.router.navigateByUrl('/signup');
       return;
     }
-    
+
     this.isCreatingPoll = !this.isCreatingPoll;
   }
 

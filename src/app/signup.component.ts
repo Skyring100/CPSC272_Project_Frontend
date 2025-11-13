@@ -9,7 +9,7 @@ import { Account } from './models/account.model';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.css']
+  styleUrls: ['./signup.component.css', './submission_forms.css']
 })
 export class SignUpComponent {
   accountCreateSuccess : boolean | undefined = undefined;
