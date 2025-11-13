@@ -5,15 +5,17 @@ body {
     font-size: medium;
 }
 
-ul.header_button {
+.stick-to-top {
     position: sticky;
     top: 10px;
+}
+
+ul.header_button {
+
     list-style-type: none;
     margin: 0;
     padding: 0;
-    overflow: hidden;
-    
-    
+        
 }
 
 
@@ -25,7 +27,7 @@ ul.header_button li {
 ul.header_button li a {
     display: block;
     color: black;
-    background-color: rgb(158, 218, 238);
+    background-color: rgb(51, 180, 223);
     text-align: center;
     padding: 20px 25px;
     border-radius: 50px;
