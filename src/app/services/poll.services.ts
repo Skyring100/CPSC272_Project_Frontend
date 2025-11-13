@@ -32,6 +32,6 @@ export class PollService {
 
 
   castVote(voteData: { poll_id: number; option_id: number }): Observable<{ message: string }> {
-    return this.http.post<{ message: string }>(this.voteAPI, voteData);
+    return this.http.post<{ message: string }>(`${this.voteAPI}/cast`, voteData);
   }
 }
