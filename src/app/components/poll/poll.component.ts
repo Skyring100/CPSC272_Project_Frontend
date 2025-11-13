@@ -33,7 +33,12 @@ export class PollComponent {
 
 
   vote(poll: Poll, option: Option) {
-    if (!this.auth.isAuthenticated || !poll.poll_id || !option.option_id)
+    if (!this.auth.isAuthenticated) {
+      this.errorMessage = "You must be logged in to vote on a poll"
+      return;
+    }
+
+    if (!poll.poll_id || !option.option_id)
       return;
 
     this.pollSvc.castVote({
@@ -49,8 +54,20 @@ export class PollComponent {
   }
 
   createNewPoll() {
-    if (!this.auth.isAuthenticated || !this.questionField || !this.optionsFields)
+    if (!this.auth.isAuthenticated) {
+      this.errorMessage = "You must be logged in to create a poll"
       return;
+    }
+
+    if (!this.questionField) {
+      this.errorMessage = "All polls must have a question"
+      return;
+    }
+
+    if (this.optionsFields.some(option => option === '')) {
+      this.errorMessage = "All options must be filled out"
+      return;
+    }
 
     const newPoll : any = {
       question : this.questionField,
