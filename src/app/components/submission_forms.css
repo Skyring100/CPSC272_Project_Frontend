@@ -1,0 +1,26 @@
+.submission{
+    margin: auto;
+    ul{
+        list-style-type: none;
+        margin: 0;
+        padding-left: 5%;
+    }
+    button{
+        background-color: #035642;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+    }
+    input{
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+    label{
+        padding-right: 1%;
+    }
+}

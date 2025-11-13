@@ -1,27 +1,30 @@
 <div class="main_page">
-  @if (errorMessage) {
-    <p style="color: red;">{{ errorMessage }}</p>
-  }
-
-  <button (click)="pollCreation.hidden = !pollCreation.hidden">
-    {{ pollCreation.hidden ? 'Create Your Own Poll' : 'Hide Poll Creation' }}
-  </button>
-  
-  <div #pollCreation [hidden]="true">
-    <label for="question">Question</label>
-    <input type="text" id="question" name="question" [(ngModel)]="questionField">
-    <ul>
-      @for (op of optionsFields; track i; let i = $index) {
-        <li>
-          <label for="option">Option {{i+1}}:</label>
-          <input type="text" id="option" name="option" [(ngModel)]="optionsFields[i]">
-        </li>
-        <br>
-      }
-      <button (click)="addOptionField()">Add Option</button>
-    </ul>
-    <button (click)="createNewPoll()">Create Poll</button>
+  <div class="submission">
+    @if (errorMessage) {
+      <p style="color: red;">{{ errorMessage }}</p>
+    }
+    
+    <button (click)="pollCreation.hidden = !pollCreation.hidden">
+      {{ pollCreation.hidden ? 'Create Your Own Poll' : 'Hide Poll Creation' }}
+    </button>
+    
+    <div #pollCreation [hidden]="true">
+      <label for="question">Question</label>
+      <input type="text" id="question" name="question" [(ngModel)]="questionField">
+      <ul>
+        @for (op of optionsFields; track i; let i = $index) {
+          <li>
+            <label for="option">Option {{i+1}}:</label>
+            <input type="text" id="option" name="option" [(ngModel)]="optionsFields[i]">
+          </li>
+          <br>
+        }
+        <button (click)="addOptionField()">Add Option</button>
+      </ul>
+      <button (click)="createNewPoll()">Create Poll</button>
+    </div>
   </div>
+  
 
   <!--Show all polls in the database-->
   <!--For every poll in in the loaded results, repeat this div element-->

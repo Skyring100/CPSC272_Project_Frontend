@@ -25,7 +25,7 @@ export class AccountService {
 
 
   getUserPolls(): Observable<Poll[]> {
-    return this.http.get<Poll[]>(`${this.accountAPI}/polls`, { withCredentials: true });
+    return this.http.get<Poll[]>(`${this.accountAPI}/polls`);
   }
 
   getUserVotedPolls(): Observable<Poll[]> {

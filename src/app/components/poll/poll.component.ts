@@ -12,7 +12,7 @@ import { AuthService } from '../../services/auth.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './poll.component.html',
-  styleUrls: ['./poll.component.css']
+  styleUrls: ['./poll.component.css','../submission_forms.css']
 })
 export class PollComponent {
   allPolls: Poll[] = [];
