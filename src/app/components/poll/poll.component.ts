@@ -31,6 +31,19 @@ export class PollComponent {
     this.load();
   }
 
+  load() {
+    this.loading = true;
+    this.pollSvc.getAllPolls(this.currentPage).subscribe({
+      next: polls => this.allPolls.push(...polls),
+      error: (err) => this.errorMessage = err.error?.message || 'Failed to load polls',
+      complete: () => this.loading = false
+    });
+  }
+
+  loadMorePolls() {
+    this.currentPage++;
+    this.load();
+  }
 
   vote(poll: Poll, option: Option) {
     if (!this.auth.isAuthenticated) {
@@ -38,7 +51,7 @@ export class PollComponent {
       return;
     }
 
-    if (!poll.poll_id || !option.option_id)
+    if (poll.user_vote || !poll.poll_id || !option.option_id)
       return;
 
     this.pollSvc.castVote({
@@ -84,20 +97,6 @@ export class PollComponent {
       },
       error: (err) => this.errorMessage = err.error?.message || 'Failed to create poll',
     });
-  }
-
-  load() {
-    this.loading = true;
-    this.pollSvc.getAllPolls(this.currentPage).subscribe({
-      next: polls => this.allPolls.push(...polls),
-      error: (err) => this.errorMessage = err.error?.message || 'Failed to load polls',
-      complete: () => this.loading = false
-    });
-  }
-
-  loadMore() {
-    this.currentPage++;
-    this.load();
   }
 
   addOptionField() {

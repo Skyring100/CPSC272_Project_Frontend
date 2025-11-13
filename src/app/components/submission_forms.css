@@ -1,25 +1,39 @@
 .submission{
-    margin: auto;
+    width: 65%;
+    margin: 10px auto;
+
     ul{
         list-style-type: none;
         margin: 0;
-        padding-left: 5%;
+        padding-left: 0;
     }
+
     button{
-        background-color: #035642;
+        background-color: coral;
         color: white;
-        padding: 14px 20px;
-        margin: 8px 0;
         border: none;
         cursor: pointer;
+        text-align: center;
+        padding: 20px 25px;
+        border-radius: 50px;
+        margin: 10px;
+        font-size: medium;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
+
     input{
         padding: 12px 20px;
         margin: 8px 0;
         display: inline-block;
         border: 1px solid #ccc;
         box-sizing: border-box;
+        background-color: white;
     }
+
+    input:focus{
+        background-color: rgb(185, 255, 255);
+    }
+
     label{
         padding-right: 1%;
     }

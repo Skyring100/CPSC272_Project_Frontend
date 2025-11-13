@@ -27,12 +27,11 @@ export class SummaryComponent {
     private router : Router,
     private pollSvc: PollService,
     private auth: AuthService,
-  ) {
-    this.username = auth.user?.username
-  }
+  ) {}
   
   
   ngOnInit(){
+    this.username = this.auth.user?.username
     this.accountSvc.getUserPolls().subscribe({
       next: polls => this.userPolls = polls,
       error: (err) => this.errorMessage = err.error?.message || 'Failed to load polls',

@@ -20,8 +20,8 @@
           <br>
         }
         <button (click)="addOptionField()">Add Option</button>
+        <button (click)="createNewPoll()">Create Poll</button>
       </ul>
-      <button (click)="createNewPoll()">Create Poll</button>
     </div>
   </div>
   
@@ -40,5 +40,5 @@
     </ul>
   </div>
 
-  <button (click)="loadMore()" [disabled]="loading">Load More</button>
+  <button (click)="loadMorePolls()" [disabled]="loading">Load More</button>
 </div>
