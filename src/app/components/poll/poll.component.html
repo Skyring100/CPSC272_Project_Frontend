@@ -28,17 +28,17 @@
 
   <!--Show all polls in the database-->
   <!--For every poll in in the loaded results, repeat this div element-->
-  <div *ngFor="let poll of allPolls" class="poll_element">
-    <p class="poll_question">{{ poll.question }}</p>
-    <!--For every option inside this poll, repeat this list element-->
-    <ul *ngFor="let option of poll.options">
-      <li class="poll_option" [class.user-voted]="poll.user_vote === option.option_id">
-        <button (click)="vote(poll, option)" [disabled]="poll.user_vote">
-          {{option.content}} - {{option.vote_count}}
-        </button>
-      </li>
-    </ul>
+  <div class="poll-list" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScrollDown()">
+    <div *ngFor="let poll of allPolls" class="poll_element">
+      <p class="poll_question">{{ poll.question }}</p>
+      <!--For every option inside this poll, repeat this list element-->
+      <ul *ngFor="let option of poll.options">
+        <li class="poll_option" [class.user-voted]="poll.user_vote === option.option_id">
+          <button (click)="vote(poll, option)" [disabled]="poll.user_vote">
+            {{option.content}} - {{option.vote_count}}
+          </button>
+        </li>
+      </ul>
+    </div>
   </div>
-
-  <button (click)="loadMorePolls()" [disabled]="loading">Load More</button>
 </div>

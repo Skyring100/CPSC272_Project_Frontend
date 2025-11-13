@@ -49,13 +49,13 @@ export class SignUpComponent {
       username: this.usernameField,
       password: this.passwordField
     }).subscribe({
-      next: () => {  // Auto-login after successful signup
+      next: _ => {  // Auto-login after successful signup
         this.auth.login(this.usernameField, this.passwordField).subscribe({
           next: _ => this.router.navigateByUrl('/poll'),
-          error: (err) => this.errorMessage = err.error?.message || 'Login failed',
+          error: err => this.errorMessage = err.error?.message || 'Login failed',
         });
       },
-      error: (err) => this.errorMessage = err.error?.message || 'Failed to create account',
+      error: err => this.errorMessage = err.error?.message || 'Failed to create account',
     });
   }
 }

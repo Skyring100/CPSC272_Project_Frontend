@@ -34,7 +34,7 @@ export class SummaryComponent {
     this.username = this.auth.user?.username
     this.accountSvc.getUserPolls().subscribe({
       next: polls => this.userPolls = polls,
-      error: (err) => this.errorMessage = err.error?.message || 'Failed to load polls',
+      error: err => this.errorMessage = err.error?.message || 'Failed to load polls',
     });
   }
 
@@ -54,14 +54,14 @@ export class SummaryComponent {
         this.currentPassword = '';
         this.newPassword = '';
       },
-      error: (err) => this.errorMessage = err.error?.message || 'Failed to update password',
+      error: err => this.errorMessage = err.error?.message || 'Failed to update password',
     });
   }
 
   deleteAccount(){
     this.accountSvc.deleteAccount().subscribe({
       next: _ => this.logOut(),
-      error: (err) => this.errorMessage = err.error?.message || 'Failed to delete account',
+      error: err => this.errorMessage = err.error?.message || 'Failed to delete account',
     });
   }
 

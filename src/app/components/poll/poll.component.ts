@@ -5,12 +5,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Option } from '../../models/option.model';
 import { AuthService } from '../../services/auth.service';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 
 @Component({
   selector: 'app-poll',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, InfiniteScrollModule],
   templateUrl: './poll.component.html',
   styleUrls: ['./poll.component.css','../submission_forms.css']
 })
@@ -34,13 +35,20 @@ export class PollComponent {
   load() {
     this.loading = true;
     this.pollSvc.getAllPolls(this.currentPage).subscribe({
-      next: polls => this.allPolls.push(...polls),
-      error: (err) => this.errorMessage = err.error?.message || 'Failed to load polls',
-      complete: () => this.loading = false
+      next: polls => {
+        this.allPolls.push(...polls)
+        this.loading = false
+      },
+      error: err => {
+        if (err.status !== 403) {
+          this.errorMessage = err.error?.message || 'Failed to load polls';
+        }
+      },
     });
   }
 
-  loadMorePolls() {
+  onScrollDown() {
+    if (this.loading) return;
     this.currentPage++;
     this.load();
   }
@@ -62,7 +70,7 @@ export class PollComponent {
         poll.user_vote = option.option_id;
         option.vote_count = option.vote_count + 1;
       },
-      error: _ => {  }, // Not going to update the error message here, not useful
+      error: err => this.errorMessage = err.error?.message || 'Vote failed',
     });
   }
 
@@ -95,7 +103,7 @@ export class PollComponent {
         this.optionsFields = ["", ""];
         this.load();
       },
-      error: (err) => this.errorMessage = err.error?.message || 'Failed to create poll',
+      error: err => this.errorMessage = err.error?.message || 'Failed to create poll',
     });
   }
 

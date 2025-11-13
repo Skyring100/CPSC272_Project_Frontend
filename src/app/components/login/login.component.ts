@@ -36,8 +36,8 @@ export class LogInComponent {
     this.errorMessage = '';
 
     this.auth.login(this.usernameField, this.passwordField).subscribe({
-      next: () => this.router.navigateByUrl('/poll'),
-      error: (err) => this.errorMessage = err.error?.message || 'Login failed',
+      next: _ => this.router.navigateByUrl('/poll'),
+      error: err => this.errorMessage = err.error?.message || 'Login failed',
     });
   }
 }
