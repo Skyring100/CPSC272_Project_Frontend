@@ -15,7 +15,7 @@ import { PollService } from '../../services/poll.services';
   styleUrls: ['./summary.component.css']
 })
 export class SummaryComponent {
-  user$ = this.auth.user$;
+  username: string | null | undefined = '';
   errorMessage: string = '';
   userPolls: Poll[] = [];
   currentPassword = '';
@@ -27,7 +27,9 @@ export class SummaryComponent {
     private router : Router,
     private pollSvc: PollService,
     private auth: AuthService,
-  ) {}
+  ) {
+    this.username = auth.user?.username
+  }
   
   
   ngOnInit(){

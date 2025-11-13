@@ -1,5 +1,5 @@
 <div>
-    <p> Username: {{(user$ | async)?.username}} | Polls Made: {{userPolls.length}} | Polls Done: </p>
+    <p> Username: {{username}} | Polls Made: {{userPolls.length}} | Polls Done: </p>
 
     <button (click)="logOut()">Log Out</button>
     <button (click)="deleteAccount()">Delete Account</button>
