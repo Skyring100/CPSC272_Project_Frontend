@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PollService } from '../../services/poll.services';
+import { PollService } from '../../services/poll.service';
 import { Poll } from '../../models/poll.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';

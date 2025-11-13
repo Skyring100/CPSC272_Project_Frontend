@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { AccountService } from '../../services/account.service';
 import { AuthService } from '../../services/auth.service';
 import { Poll } from '../../models/poll.model';
-import { PollService } from '../../services/poll.services';
+import { PollService } from '../../services/poll.service';
 
 @Component({
   selector: 'app-summary',
