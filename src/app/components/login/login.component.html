@@ -1,4 +1,11 @@
 
+  @if (currentAccount?.uuid){
+    <div>
+      <p class="alt-text">You are currently logged in as {{currentAccount?.username}}</p>
+      <button (click)="logOut()" class="logout">Log Out</button>
+    </div>
+  }
+  @else {
 <div class="submission">
   <form>
     <ul>
@@ -11,12 +18,17 @@
         <input type="password" id="login-password" name="login-password" [(ngModel)]="passwordField">
       </li>
       <br>
-        <button (click)="logIn()">Login</button>
+      <li>
+        <button (click)="logIn()">Log In</button>
+      </li>
     </ul>
-    
-    @if (errorMessage) {
-      <p style="color: red;">{{ errorMessage }}</p>
-    }
-    
+      @if (loginSuccess == true){
+        <!--This if block will never be shown anymore since if success we immedatbly go to account summary-->
+        <p>Account {{currentAccount?.username}} logged in!</p>
+      }
+      @else if (loginSuccess == false){
+        <p>Something went wrong in account log in</p>
+      }
   </form>
 </div>
+  }
