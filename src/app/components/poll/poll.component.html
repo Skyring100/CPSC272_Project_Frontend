@@ -37,6 +37,11 @@
           <button (click)="vote(poll, option)" [disabled]="poll.user_vote">
             {{option.content}} - {{option.vote_count}}
           </button>
+          @if(poll.user_vote === option.option_id){
+            <button (click)="removeVote(poll, option)">
+              Remove Vote
+            </button>
+          }
         </li>
       </ul>
     </div>

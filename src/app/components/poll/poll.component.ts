@@ -59,8 +59,9 @@ export class PollComponent {
       return;
     }
 
-    if (poll.user_vote || !poll.poll_id || !option.option_id)
-      return;
+    if (poll.user_vote || !poll.poll_id || !option.option_id){
+      console.log("Poll or option selected is invalid");
+    }
 
     this.pollSvc.castVote({
       poll_id: poll.poll_id,
@@ -71,6 +72,21 @@ export class PollComponent {
         option.vote_count = option.vote_count + 1;
       },
       error: err => this.errorMessage = err.error?.message || 'Vote failed',
+    });
+  }
+
+  removeVote(poll: Poll, option: Option) {
+    if (!this.auth.isAuthenticated) {
+      this.errorMessage = "You must be logged in to remove vote on a poll"
+      return;
+    }
+    if (!poll.user_vote || !poll.poll_id || !option.option_id)
+      return;
+    
+    this.pollSvc.removeVote(poll.poll_id).subscribe(() => {
+        option.vote_count = option.vote_count - 1;
+        poll.user_vote = undefined;
+        console.log("Vote removed");
     });
   }
 
