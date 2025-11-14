@@ -3,14 +3,16 @@ body, html {
     font-size: medium;
     padding: 0;
     margin: 0;
+    background-color: whitesmoke;
 }
 
 .page {
     display: grid;
     grid-template-areas: 
     "header"
-    "content";
-    grid-template-rows: 100px 90%;
+    "content"
+    "footer";
+    grid-template-rows: 100px 90% 100px;
 }
 
 .page div.header {
@@ -20,7 +22,9 @@ body, html {
     grid-area: header;
 
     color: black;
-    background-color: whitesmoke;
+    background-image: linear-gradient(to bottom, whitesmoke, rgba(245, 245, 245, 0.753), rgba(245, 245, 245, 0));
+
+
 }
 
 .page div.header ul {
@@ -51,4 +55,15 @@ body, html {
 .page div.header ul li a:hover{
     background-color: rgb(153, 224, 248);
     transition: 200ms;
+    scale: 1.05;
+}
+
+div.up-gradient {
+    height: 100px;
+    width: 100%;
+    grid-area: footer;
+    position: fixed;
+    bottom: 0;
+    z-index: 10;
+    background-image: linear-gradient(to top, whitesmoke, whitesmoke, rgba(245, 245, 245, 0.753), rgba(245, 245, 245, 0));
 }

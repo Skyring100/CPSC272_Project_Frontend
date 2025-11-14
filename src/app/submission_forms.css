@@ -22,6 +22,7 @@
     button:hover {
         transition: 500ms;
         background-color: rgb(255, 194, 80);
+        scale: 1.05;
     }
     input{
         padding: 12px 20px;
@@ -78,4 +79,5 @@ button.logout {
 .logout:hover{
     transition: 500ms;
     background-color: rgb(255, 72, 0);
+    scale: 1.05;
 }
