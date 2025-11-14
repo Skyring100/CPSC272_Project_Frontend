@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AccountService } from './services/account.service';
-import { Account } from './models/account.model';
+import { AccountService } from '../../services/account.service';
+import { Account } from '../../models/account.model';
 
 @Component({
   selector: 'app-poll',

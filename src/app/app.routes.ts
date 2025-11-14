@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
-import { LogInComponent } from './login.component';
-import { SummaryComponent } from './summary.component';
-import { SignUpComponent } from './signup.component';
-import { PollComponent } from './poll.component';
+import { LogInComponent } from './components/login/login.component';
+import { SummaryComponent } from './components/summary/summary.component';
+import { SignUpComponent } from './components/signup/signup.component';
+import { PollComponent } from './components/poll/poll.component';
 
 export const routes: Routes = [
     // Currently redirecting our default landing page to /poll

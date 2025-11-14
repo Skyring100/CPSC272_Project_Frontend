@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { PollComponent } from './poll.component';
+import { PollComponent } from './components/poll/poll.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
