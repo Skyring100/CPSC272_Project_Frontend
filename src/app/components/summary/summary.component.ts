@@ -47,6 +47,12 @@ export class SummaryComponent {
   }
 
   updateAccount() {
+
+    if (!this.currentPassword || !this.newPassword) {
+      this.errorMessage = "You must fill current password and new password fields";
+      return;
+    }
+
     this.accountSvc.updateAccount({ 
       currentPassword: this.currentPassword,
       newPassword: this.newPassword
