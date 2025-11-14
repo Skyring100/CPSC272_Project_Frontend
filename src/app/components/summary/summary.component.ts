@@ -20,6 +20,7 @@ export class SummaryComponent {
   userPolls: Poll[] = [];
   currentPassword = '';
   newPassword = '';
+  changePasswordSuccess : boolean | undefined;
   
   
   constructor(
@@ -53,6 +54,8 @@ export class SummaryComponent {
       next: _ => {
         this.currentPassword = '';
         this.newPassword = '';
+        this.errorMessage = '';
+        this.changePasswordSuccess = true;
       },
       error: err => this.errorMessage = err.error?.message || 'Failed to update password',
     });

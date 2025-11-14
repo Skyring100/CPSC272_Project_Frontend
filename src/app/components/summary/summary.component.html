@@ -22,6 +22,9 @@
             <input type="password" id="new-password" name="new-password" [(ngModel)]="newPassword">
         </div>
         <button (click)="updateAccount()">Update Password</button>
+        @if (changePasswordSuccess) {
+            <p style="color: green;">Password Updated</p>
+        }
     </div>
 </div>
 <div>
