@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { PollService } from './services/poll.services';
-import { Account } from './models/account.model';
+import { PollService } from '../../services/poll.services';
+import { Account } from '../../models/account.model';
 import { Router } from '@angular/router';
-import { Poll } from './models/poll.model';
-import { Option } from './models/option.model';
-import { AccountService } from './services/account.service';
+import { Poll } from '../../models/poll.model';
+import { Option } from '../../models/option.model';
+import { AccountService } from '../../services/account.service';
 
 @Component({
   selector: 'app-poll',

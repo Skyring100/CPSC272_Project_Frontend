@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { PollService } from './services/poll.services';
-import { Poll } from './models/poll.model';
+import { PollService } from '../../services/poll.services';
+import { Poll } from '../../models/poll.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Account } from './models/account.model';
+import { Account } from '../../models/account.model';
 import { Router } from '@angular/router';
-import { Option } from './models/option.model';
-import { AccountService } from './services/account.service';
+import { Option } from '../../models/option.model';
+import { AccountService } from '../../services/account.service';
 
 
 @Component({
