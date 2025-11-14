@@ -1,7 +1,7 @@
 <div>
-    <p> Username: {{username}} | Polls Made: {{userPolls.length}} | Polls Done: </p>
+    <p class="alt-text"> Username: {{username}} | Polls Made: {{userPolls.length}} | Polls Done: </p>
 
-    <button (click)="logOut()">Log Out</button>
+    <button (click)="logOut()" class="logout">Log Out</button>
     <button (click)="deleteAccount()">Delete Account</button>
 
     <button #editButton (click)="editOptions.hidden = !editOptions.hidden">
