@@ -1,120 +1,35 @@
 .poll_element {
     border-style: solid;
     border-radius: 20px;
-    border: none;
-    background-color:  rgb(207, 225, 231);
-    width: 65%;
-    margin: auto;
-    margin-top: 5px;
-    padding: 5px;
-    overflow-y: scroll;
-    scroll-snap-type: both mandatory;
-    scroll-snap-align: start none;
-    scroll-margin-block: 10px;
-    color: lightslategrey;
-    transition: 150ms;
-    scale: 0.9;
-    opacity: 0.9;
-
-}
-
-.poll_question {
-    font-size: xx-large;
-    color: rgb(8, 21, 32);
-    font-weight: bold;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    margin: auto;
-}
-
-.poll_element:hover {
-    border-style: solid;
-    border-radius: 20px;
+    border-color: lightblue;
     background-color:  lightblue;
     width: 65%;
     margin: auto;
     margin-top: 10px;
     padding: 10px;
-    padding-bottom: 5%;
-    overflow-y: scroll;
-    scroll-snap-type: both mandatory;
+    overflow: hidden;
+    scroll-snap-type: y mandatory;
     scroll-snap-align: start none;
     scroll-margin-block: 10px;
-    color:black;
-    scale: 1.0;
-    opacity: 1.0;
-    transition: 500ms;
-    align-items: center;
-    align-content: center;
-    
+}
+
+.poll_question {
+    font-weight: bold;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin: auto;
+    padding-bottom: 10px;
 }
 
 .poll_option {
-    opacity: 0;
-    visibility: hidden;
-    list-style-type: none;
-    transition: 200ms;
+    list-style-type: circle;
 }
-
-.poll_element:hover .poll_option {
-    visibility: visible;
-    opacity: 1;
-    transition: 200ms;
-}
-
 
 .create_poll_question {
     font-weight: bold;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     padding-right: 0.5%;
-    padding-top: 10;
 }
 
-.create-button{
-    position: fixed;
-    background-color: coral;
-    color: white;
-    border: none;
-    cursor: pointer;
-    text-align: center;
-    padding: 20px 25px;
-    border-radius: 50px;
-    margin: 10px;
-    font-size: medium;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    transition: 200ms;
-}
-
-.create-button:hover {
-    transition: 500ms;
-    background-color: rgb(255, 194, 80);
-}
-
-.entry-fields {
-    overflow-wrap: normal;
-    align-content: center;
-}
-
-.vote-box {
-    
-    color: rgb(255, 255, 255);
-    background-color:  rgb(27, 162, 207);
-    border-radius: 20px;
-    transition: 200ms;
-    border-width: 0px;
-    border-color: rgb(27, 162, 207);
-    padding-right: 50px;
-    padding-left: 15px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    font-size: large;
-    text-align: left;
-
-}   
-
-.vote-box:hover {
-    background-color:  rgb(251, 255, 0);
-    scale: 1.1;
-    color: black;
-    transition: 500ms;
-    border-width: 5px;
+.user-voted {
+    background-color: lightgreen;
 }
