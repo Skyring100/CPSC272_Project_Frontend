@@ -1,143 +1,73 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { PollService } from '../../services/poll.services';
-import { Account } from '../../models/account.model';
 import { Router } from '@angular/router';
-import { Poll } from '../../models/poll.model';
-import { Option } from '../../models/option.model';
 import { AccountService } from '../../services/account.service';
+import { AuthService } from '../../services/auth.service';
+import { Poll } from '../../models/poll.model';
+import { PollService } from '../../services/poll.service';
 
 @Component({
-  selector: 'app-poll',
+  selector: 'app-summary',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './summary.component.html',
-  styleUrls: ['./summary.component.css', './submission_forms.css']
+  styleUrls: ['./summary.component.css']
 })
 export class SummaryComponent {
-  currentAccount : Account | undefined;
-  allUserPolls : Poll[] = [];
-
-  showAccountEditOptions : boolean = false;
-  newUsernameField : string | undefined;
+  username: string | null | undefined = '';
+  errorMessage: string = '';
+  userPolls: Poll[] = [];
+  currentPassword = '';
+  newPassword = '';
   
   
   constructor(
-    private pollSvc: PollService,
     private accountSvc: AccountService,
-    private router : Router
+    private router : Router,
+    private pollSvc: PollService,
+    private auth: AuthService,
   ) {}
   
   
   ngOnInit(){
-    this.currentAccount = JSON.parse(localStorage.getItem('currentAccount') || '{}');
-    console.log("Current account: "+this.currentAccount?.username + " with uuid "+this.currentAccount?.uuid);
-    if(this.currentAccount?.uuid == undefined){
-      // Take user to sign up page
-      this.router.navigateByUrl("/signup");
-    }else{
-      this.getCurrentAccountPolls();
-    }
+    this.username = this.auth.user?.username
+    this.accountSvc.getUserPolls().subscribe({
+      next: polls => this.userPolls = polls,
+      error: err => this.errorMessage = err.error?.message || 'Failed to load polls',
+    });
   }
 
-  getCurrentAccountPolls(){
-    if(this.currentAccount?.uuid == undefined){
-      console.error("Current account has no UUID!");
-    }else{
-    this.pollSvc.getPollsFromAccount(this.currentAccount.uuid).subscribe({
-        next: polls => {
-          this.allUserPolls = polls;
-        },
-        error: () => {
-
-        },
-        complete: () => {
-          console.log(this.allUserPolls);
-        }
-      });
-    }
+  logOut() {
+    this.auth.logout().subscribe({
+      next: _ => this.router.navigate(['/login']),
+      error: err => this.errorMessage = err.error?.message || 'logout failed',
+    });
   }
 
-  toggleShowAccountEditOptions(){
-    this.showAccountEditOptions = !this.showAccountEditOptions;
+  updateAccount() {
+    this.accountSvc.updateAccount({ 
+      currentPassword: this.currentPassword,
+      newPassword: this.newPassword
+    }).subscribe({
+      next: _ => {
+        this.currentPassword = '';
+        this.newPassword = '';
+      },
+      error: err => this.errorMessage = err.error?.message || 'Failed to update password',
+    });
   }
 
-  updateCurrentAccount(){
-    if(this.currentAccount?.uuid == undefined){
-      console.error("Current account has undefined UUID");
-    }else{
-      const updatedAccount : Account = {
-        uuid : this.currentAccount.uuid,
-        username : this.newUsernameField,
-        password_hash : this.currentAccount.password_hash
-      };
-      this.accountSvc.updateAccount(this.currentAccount.uuid, updatedAccount).subscribe({
-        next: acc => {
-          this.currentAccount = acc;
-          localStorage.setItem('currentAccount', JSON.stringify(this.currentAccount));
-          console.log("Account Successfully Updated");
-        },
-        error: _ => {
-          console.error("Update failed");
-        }
-      });
-    }
-  }
-
-  deleteCurrentAccount(){
-    if(this.currentAccount?.uuid == undefined){
-      console.error("Current account has undefined UUID");
-    }else{
-      this.accountSvc.deleteAccount(this.currentAccount.uuid).subscribe({
-        next: _ => {
-          this.currentAccount = {}
-          localStorage.clear();
-          console.log("Account Successfully Deleted");
-          this.router.navigateByUrl("/signup");
-        },
-        error: _ => console.error("Delete failed")
-      });
-    }
-  }
-
-
-  select(selectedPoll: Poll, selectedOption: Option){
-    console.log("For the poll \""+selectedPoll.question+"\", you chose \""+selectedOption.content+"\"");
-    // Check if user is logged in
-    if(this.currentAccount?.uuid == undefined){
-      this.router.navigateByUrl('/signup');
-    }else{
-      // TODO: Send vote to database
-      console.log("Sending vote...");
-
-      // TODO: If vote was successful, display the results
-
-    }
+  deleteAccount(){
+    this.accountSvc.deleteAccount().subscribe({
+      next: _ => this.logOut(),
+      error: err => this.errorMessage = err.error?.message || 'Failed to delete account',
+    });
   }
 
   deletePoll(p : Poll){
-    if(p.poll_id == undefined){
-      console.error("Poll id is undefined");
-    }else{
-      this.pollSvc.deletePoll(p.poll_id).subscribe({
-        next: isDeleted => {
-          if(isDeleted){
-            console.log("Deleted poll successfully");
-            this.getCurrentAccountPolls();
-          }else{
-            console.error("Poll deletion issue");
-          }
-        },
-        error: e => {
-          console.error("Error with deletion");
-        }
-      });
-    }
-  }
-
-  logOut(){
-    this.currentAccount = {};
-    localStorage.clear();
+    this.pollSvc.deletePoll(p.poll_id).subscribe(() => {
+      this.userPolls = this.userPolls.filter(poll => poll.poll_id !== p.poll_id);
+    });
   }
 }

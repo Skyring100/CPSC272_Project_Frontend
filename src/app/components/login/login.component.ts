@@ -1,62 +1,43 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Account } from '../../models/account.model';
-import { AccountService } from '../../services/account.service';
-
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
-  selector: 'app-poll',
+  selector: 'app-login',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css', './submission_forms.css']
+  styleUrls: ['./login.component.css','../submission_forms.css']
 })
 export class LogInComponent {
-  currentAccount : Account | undefined;
+  usernameField: string = '';
+  passwordField: string = '';
+  errorMessage: string = '';
 
-  usernameField : string | undefined;
-  passwordField : string | undefined;
+  constructor(
+    private router: Router,
+    private auth: AuthService,
+  ) {}
 
-  loginSuccess : boolean | undefined;
-
-  constructor(private svc: AccountService) {}
-  
-  ngOnInit(){
-    this.currentAccount = JSON.parse(localStorage.getItem('currentAccount') || '{}');
-    console.log("Current account: "+this.currentAccount?.username + " with uuid "+this.currentAccount?.uuid);
+  ngOnInit() {
+    if (this.auth.isAuthenticated) {
+      this.router.navigate(['/poll']);
+    }
   }
 
-  logIn(){
-    if(this.usernameField == undefined || this.passwordField == undefined){
-      console.log("Username or password is blank");
+  logIn() {
+    if (!this.usernameField || !this.passwordField) {
+      this.errorMessage = 'Username and password are blank';
       return;
     }
-    //TODO: use password hash
-    this.svc.getAccount(this.usernameField, this.passwordField).subscribe({
-      next: rows => {
-        console.log(rows);
-        if(rows.length != 0){
-          // We found their account to log in
-          this.currentAccount = rows[0];
-          localStorage.setItem('currentAccount', JSON.stringify(this.currentAccount));
-          this.loginSuccess = true;
-        }else{
-          // There is no account with this username and password
-          // TODO: show user theses no account
-          console.log("Could not find account");
-          this.loginSuccess = false;
-        }
-      },
-      error: () => console.log("Error loggin in"),
-      complete: () => {
-        console.log("Log in attempt finished");
-      }
-    });
-  }
 
-  logOut(){
-    localStorage.clear();
-    this.currentAccount = undefined;
+    this.errorMessage = '';
+
+    this.auth.login(this.usernameField, this.passwordField).subscribe({
+      next: _ => this.router.navigateByUrl('/poll'),
+      error: err => this.errorMessage = err.error?.message || 'Login failed',
+    });
   }
 }

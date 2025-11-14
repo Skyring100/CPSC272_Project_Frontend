@@ -1,177 +1,132 @@
 import { Component } from '@angular/core';
-import { PollService } from '../../services/poll.services';
+import { PollService } from '../../services/poll.service';
 import { Poll } from '../../models/poll.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Account } from '../../models/account.model';
-import { Router } from '@angular/router';
 import { Option } from '../../models/option.model';
-import { AccountService } from '../../services/account.service';
+import { AuthService } from '../../services/auth.service';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 
 @Component({
   selector: 'app-poll',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, InfiniteScrollModule],
   templateUrl: './poll.component.html',
-  styleUrls: ['./poll.component.css','./submission_forms.css']
+  styleUrls: ['./poll.component.css','../submission_forms.css']
 })
 export class PollComponent {
-  currentAccount : Account | undefined;
-  //This class provides methods and state that the app.component.html can directly call and access
-  allPolls : Poll[] = [];
+  allPolls: Poll[] = [];
+  questionField: string = '';
+  optionsFields: string[] = ['', ''];
+  errorMessage: string = '';
   loading = false;
-
-  isCreatingPoll : boolean = false;
-  questionField : string | undefined;
-  optionsFields : string[] = ["", ""];
+  currentPage = 1;
 
   constructor(
     private pollSvc: PollService,
-    private accountSvc: AccountService,
-    private router: Router
+    private auth: AuthService,
   ) {}
 
   ngOnInit(){
-    this.currentAccount = JSON.parse(localStorage.getItem('currentAccount') || '{}');
-    console.log("Current account: "+this.currentAccount?.username + " with uuid "+this.currentAccount?.uuid);
     this.load();
-  }
-
-
-  voteOnPoll(selectedPoll: Poll, selectedOption: Option) {
-    // If user is not logged in, prompt them to sign up
-    if (this.currentAccount?.uuid == undefined) {
-      this.router.navigateByUrl('/signup');
-      return;
-    }
-
-    if (selectedPoll.user_vote) {
-      console.log('User has already voted in this poll.');
-      return;
-    }
-
-    if (selectedPoll.poll_id && selectedOption.option_id) {
-      this.pollSvc.castVote({
-        uuid: 3,
-        poll_id: selectedPoll.poll_id,
-        option_id: selectedOption.option_id,
-      }).subscribe({
-        next: () => {
-          selectedPoll.user_vote = selectedOption.option_id;
-          selectedOption.vote_count = (selectedOption.vote_count || 0) + 1;
-        },
-        error: (err) => {
-          if (err.status === 409) {
-            console.log('User has already voted in this poll.');
-          } else {
-            console.error('Error casting vote:', err);
-          }
-        }
-      });
-    }
   }
 
   load() {
     this.loading = true;
-    this.pollSvc.getPolls().subscribe({
+    this.pollSvc.getAllPolls(this.currentPage).subscribe({
       next: polls => {
-        this.allPolls = polls;
+        this.allPolls.push(...polls)
+        this.loading = false
       },
-      error: () => console.log("There was a problem loading polls"),
-      complete: () => {
-        this.loading = false;
-      }
+      error: err => {
+        if (err.status !== 403) {
+          this.errorMessage = err.error?.message || 'Failed to load polls';
+        }
+      },
     });
   }
 
-  togglePollCreation(){
-    // If a user is not logged in and tries to show poll creation options, send them to the sign up page
-    if (this.currentAccount?.uuid == undefined) {
-      this.router.navigateByUrl('/signup');
+  onScrollDown() {
+    if (this.loading) return;
+    this.currentPage++;
+    this.load();
+  }
+
+  vote(poll: Poll, option: Option) {
+    if (!this.auth.isAuthenticated) {
+      this.errorMessage = "You must be logged in to vote on a poll"
       return;
     }
-    else if (!this.isCreatingPoll){
-      window.scrollTo({top: 0, behavior: 'smooth'});
+
+    if (poll.user_vote || !poll.poll_id || !option.option_id){
+      console.log("Poll or option selected is invalid");
     }
-    this.isCreatingPoll = !this.isCreatingPoll;
-  }
 
-  addOptionField(){
-    this.optionsFields?.push("");
-  }
-
-  createNewAccount(newAccount : Account){
-    this.accountSvc.addAccount(newAccount).subscribe({
-      next: _ => {  },
-      error: _ => { }
+    this.pollSvc.castVote({
+      poll_id: poll.poll_id,
+      option_id: option.option_id,
+    }).subscribe({
+      next: _ => {
+        poll.user_vote = option.option_id;
+        option.vote_count = option.vote_count + 1;
+      },
+      error: err => this.errorMessage = err.error?.message || 'Vote failed',
     });
   }
 
-  createNewPoll(){
+  removeVote(poll: Poll, option: Option) {
+    if (!this.auth.isAuthenticated) {
+      this.errorMessage = "You must be logged in to remove vote on a poll"
+      return;
+    }
+    if (!poll.user_vote || !poll.poll_id || !option.option_id)
+      return;
+    
+    this.pollSvc.removeVote(poll.poll_id).subscribe(() => {
+        option.vote_count = option.vote_count - 1;
+        poll.user_vote = undefined;
+        console.log("Vote removed");
+    });
+  }
+
+  createNewPoll() {
+    if (!this.auth.isAuthenticated) {
+      this.errorMessage = "You must be logged in to create a poll"
+      return;
+    }
+
+    if (!this.questionField) {
+      this.errorMessage = "All polls must have a question"
+      return;
+    }
+
+    if (this.optionsFields.some(option => option === '')) {
+      this.errorMessage = "All options must be filled out"
+      return;
+    }
 
     const newPoll : any = {
       question : this.questionField,
       options : this.optionsFields,
-      uuid: this.currentAccount?.uuid
     }
 
     this.pollSvc.addPoll(newPoll).subscribe({
       next: _ => {
-        this.load(); // Refresh the poll list immediately when adding a new poll
+        this.allPolls = [];
+        this.currentPage = 1;
         this.questionField = "";
         this.optionsFields = ["", ""];
+        this.load();
       },
-      error: _ => { }
+      error: err => this.errorMessage = err.error?.message || 'Failed to create poll',
     });
   }
 
-  createDummyAccount(){
-    const dummyAccounts : Account[] = [
-      {
-        username: "Joe",
-        password_hash: "aaa"
-      },
-      {
-        username: "Bob",
-        password_hash: "aaa"
-      },
-      {
-        username: "Job",
-        password_hash: "aaa"
-      }
-    ]
-
-    dummyAccounts.forEach(dummyAccount => {
-      this.createNewAccount(dummyAccount);
-    });
-  }
-
-  createDummyData(){
-    const dummyPolls : any[] = [
-      {
-        question: "Cat or Dog?",
-        options: ["Cat", "Dog"],
-        uuid : 3
-      },
-      {
-        question: "Best operating system?",
-        options: ["Windows", "Mac", "Linux"],
-        uuid : 2
-      },
-      {
-        question: "Favorite Color?",
-        options: ["Blue", "Green", "Red", "Yellow", "Purple", "Orange"],
-        uuid : 1
-      }
-    ];
-  
-    dummyPolls.forEach(dummyPoll => {
-      this.questionField = dummyPoll.question;
-      this.optionsFields = dummyPoll.options;
-      this.createNewPoll();
-    });
-    this.questionField = "";
-    this.optionsFields = ["", ""];
+  addOptionField() {
+    if (this.optionsFields.length < 8)
+      this.optionsFields?.push("");
+    else
+      this.errorMessage = 'Polls are limited to 8 options'
   }
 }

@@ -7,7 +7,7 @@
     margin: auto;
     margin-top: 10px;
     padding: 10px;
-    overflow-y: scroll;
+    overflow: hidden;
     scroll-snap-type: y mandatory;
     scroll-snap-align: start none;
     scroll-margin-block: 10px;
@@ -21,3 +21,6 @@
     list-style-type: circle;
 }
 
+.user-voted {
+    background-color: lightgreen;
+}

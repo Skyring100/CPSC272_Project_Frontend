@@ -1,11 +1,5 @@
-  @if (currentAccount?.uuid){
-    <div>
-      <p class="alt-text">You are currently logged in as {{currentAccount?.username}}</p>
-      <button (click)="logOut()" class="logout">Log Out</button>
-    </div>
-  }
-  @else {
-<div class="submission">
+<div>
+  <div class="submission">
   <form>
     <ul>
       <li>
@@ -19,22 +13,14 @@
       <li>
         <label for="signup-password-confirmation">Retype Password</label>
         <input type="password" id="signup-password-confirmation" name="signup-password-confirmation" [(ngModel)]="confirmPasswordField">
-        
       </li>
       <br>
-      <li>
-        <button (click)="signUp()">Submit</button>
-      </li>
-      @if (accountCreateSuccess == true){
-        <!--This if block will never be shown anymore since if success we immedatbly go to account summary-->
-        <p>Account {{currentAccount?.username}} Created!!</p>
-      }
-      @else if (accountCreateSuccess == false){
-        <p>Something went wrong in account creation</p>
-      }
+      <button (click)="signUp()">Submit</button>
 
+      @if (errorMessage) {
+        <p style="color: red;">{{ errorMessage }}</p>
+      }
 
     </ul>
   </form>
 </div>
-  }

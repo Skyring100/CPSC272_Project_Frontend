@@ -1,7 +1,7 @@
-//A data type to interface with polls
 import { Option } from "./option.model";
+
 export interface Poll {
-  poll_id?: number;
+  poll_id: number;
   question?: string;
   options?: Option[];
   uuid?: number;

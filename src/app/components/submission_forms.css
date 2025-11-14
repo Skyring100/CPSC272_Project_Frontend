@@ -1,10 +1,13 @@
 .submission{
-    margin: auto;
+    width: 65%;
+    margin: 10px auto;
+
     ul{
         list-style-type: none;
         margin: 0;
-        padding-left: 5%;
+        padding-left: 0;
     }
+
     button{
         background-color: coral;
         color: white;
@@ -16,7 +19,6 @@
         margin: 10px;
         font-size: medium;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        transition: 200ms;
     }
 
     button:hover {
@@ -32,9 +34,11 @@
         box-sizing: border-box;
         background-color: white;
     }
+
     input:focus{
         background-color: rgb(185, 255, 255);
     }
+
     label{
         padding-right: 1%;
     }
