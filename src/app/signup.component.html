@@ -1,8 +1,10 @@
   @if (currentAccount?.uuid){
     <div>
-      <p>You are currently logged in as {{currentAccount?.username}}</p>
+      <p class="alt-text">You are currently logged in as {{currentAccount?.username}}</p>
+      <button (click)="logOut()" class="logout">Log Out</button>
     </div>
   }
+  @else {
 <div class="submission">
   <form>
     <ul>
@@ -35,3 +37,4 @@
     </ul>
   </form>
 </div>
+  }

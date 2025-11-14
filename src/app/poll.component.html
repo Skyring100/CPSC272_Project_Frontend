@@ -1,13 +1,13 @@
 <div class="main_page">
+  <button (click)="togglePollCreation()" class="create-button">Create Your Own Poll</button>
   <div class="submission">
-    <button (click)="togglePollCreation()">Create Your Own Poll</button>
     @if (isCreatingPoll){
       <div>
         <label class="create_poll_question" for="question">Question:</label>
         <input type="text" id="question" name="question" [(ngModel)]="questionField">
         <ul>
           @for (op of optionsFields; track i; let i = $index) {
-            <li>
+            <li class="entry-fields">
               <label for="option">Option {{i+1}}:</label>
               <input type="text" id="option" name="option" [(ngModel)]="optionsFields[i]">
             </li>

@@ -25,6 +25,11 @@ export class SignUpComponent {
     console.log("Current account: "+this.currentAccount?.username + " with uuid "+this.currentAccount?.uuid);
   }
 
+  logOut(){
+    localStorage.clear();
+    this.currentAccount = undefined;
+  }
+
   signUp(){
     // Check if verify password filed matches password
     if(!(this.passwordField === this.confirmPasswordField)){

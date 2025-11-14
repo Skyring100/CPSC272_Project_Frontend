@@ -1,5 +1,6 @@
-<!doctype html>
+<!DOCTYPE HTML>
 <html lang="en">
+
   <head>
     <meta charset="utf-8">
     <title>Frontend</title>
@@ -7,21 +8,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
   </head>
+
   <body>
-    <!-- Navigation Bar and Home button -->
-    <div class="stick-to-top">
-      <nav class="underlay">
-        <ul class="header_button">
-          <li class="header_button"; style="float: left"; id="home-button"><a href="./poll">POLL.IO</a></li>
-          <li class="header_button"; style="float: right"><a href="./summary">Account Summary</a></li>
-          <li class="header_button"; style="float: right"><a href="./login">Login</a></li>
-          <li class="header_button"; style="float: right"><a href="./signup">Sign Up</a></li>
+    <div class="page">
+      <div class="header">
+        <ul>
+          <li style="float: left"  id="home-button"><a href="./poll" class="logo">POLL.IO</a></li>
+          <li style="float: right"><a href="./summary">Account Summary</a></li>
+          <li style="float: right"><a href="./login">Login</a></li>
+          <li style="float: right"><a href="./signup">Sign Up</a></li>
         </ul>
-      </nav>
-    </div>
-    <div>
-      <!-- Where the app resides -->
-      <app-root></app-root>
+      </div>
+      <div class="content"><app-root></app-root></div>
     </div>
   </body>
 </html>

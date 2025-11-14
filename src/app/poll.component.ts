@@ -91,7 +91,9 @@ export class PollComponent {
       this.router.navigateByUrl('/signup');
       return;
     }
-
+    else if (!this.isCreatingPoll){
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    }
     this.isCreatingPoll = !this.isCreatingPoll;
   }
 

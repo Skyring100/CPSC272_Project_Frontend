@@ -1,31 +1,35 @@
-/* You can add global styles to this file, and also import other style files */
-body {
-    background-color: whitesmoke;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+body, html {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: medium;
-}
-
-
-.stick-to-top {
-    position: sticky;
-    top: 10px;
-}
-
-ul.header_button {
-
-    list-style-type: none;
-    margin: 0;
     padding: 0;
-        
+    margin: 0;
 }
 
+.page {
+    display: grid;
+    grid-template-areas: 
+    "header"
+    "content";
+    grid-template-rows: 100px 90%;
+}
 
+.page div.header {
+    position: sticky;
+    top: 0;
+    grid-area: header;
 
-ul.header_button li {
+    color: black;
+    background-color: whitesmoke;
+}
+
+.page div.header ul {
+    list-style-type: none;
     float: unset;
+    align-items: center;
 }
 
-ul.header_button li a {
+
+.page div.header ul li a {
     display: block;
     color: black;
     background-color: rgb(51, 180, 223);
@@ -34,26 +38,16 @@ ul.header_button li a {
     border-radius: 50px;
     margin: 10px;
     text-decoration: none;
+    transition: 500ms;
 }
 
-ul.header_button li a:hover {
-    background-color: rgb(118, 167, 184);
-}
-
-
-
-.down_gradient {
-    background-image: linear-gradient(to bottom, rgba(255, 0, 0,1), rgba(245,245,245,0));
-    height: 30px;
-    width: 150%;
-    display: block;
+.page div.content {
+    grid-area: content;
+    width: 100%;
     
 }
 
-.up_gradient {
-    background-image: linear-gradient(to top, rgba(255, 0, 0, 1), rgba(245,245,245,0));
-    height: 30px;
-    width: 150%;
-    display: block;
-
+.page div.header ul li a:hover{
+    background-color: rgb(153, 224, 248);
+    transition: 200ms;
 }
