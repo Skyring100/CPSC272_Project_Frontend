@@ -1,19 +1,21 @@
 <div>
-    <p> Username: {{currentAccount?.username}} | Polls Made: | Polls Done: </p>
-    <button (click)="logOut()">Log Out</button>
-    <button (click)="toggleShowAccountEditOptions()">Account Edit Options</button>
-    @if(showAccountEditOptions){
-        <div>
+    <p class="alt-text"> Username: {{currentAccount?.username}} | Polls Made: | Polls Done: </p>
+    <button (click)="logOut()" class="logout">Log Out</button>
+    <div class="submission">
+        <button (click)="toggleShowAccountEditOptions()">Account Edit Options</button>
+        @if(showAccountEditOptions){
             <div>
-                <label for="new-username">Edit Username</label>
-                <input type="text" id="new-username" name="new-username" [(ngModel)]="newUsernameField">
-                <button (click)="updateCurrentAccount()">Submit New Username</button>
+                <div>
+                    <label for="new-username">Edit Username</label>
+                    <input type="text" id="new-username" name="new-username" [(ngModel)]="newUsernameField">
+                    <button (click)="updateCurrentAccount()">Submit New Username</button>
+                </div>
+                <div>
+                    <button (click)="deleteCurrentAccount()">Delete Current Account</button>
+                </div>
             </div>
-            <div>
-                <button (click)="deleteCurrentAccount()">Delete Current Account</button>
-            </div>
-        </div>
-    }
+        }
+    </div>
 </div>
 <div>
     <!--All polls created by this user-->

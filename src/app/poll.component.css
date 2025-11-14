@@ -12,7 +12,10 @@
     scroll-snap-align: start none;
     scroll-margin-block: 10px;
     color: lightslategrey;
-    transition: 300ms;
+    transition: 150ms;
+    scale: 0.9;
+    opacity: 0.9;
+
 }
 
 .poll_question {
@@ -37,14 +40,18 @@
     scroll-snap-align: start none;
     scroll-margin-block: 10px;
     color:black;
+    scale: 1.0;
+    opacity: 1.0;
     transition: 500ms;
+    align-items: center;
+    align-content: center;
     
 }
 
 .poll_option {
     opacity: 0;
     visibility: hidden;
-    list-style-type: circle;
+    list-style-type: none;
     transition: 200ms;
 }
 
@@ -87,3 +94,27 @@
     align-content: center;
 }
 
+.vote-box {
+    
+    color: rgb(255, 255, 255);
+    background-color:  rgb(27, 162, 207);
+    border-radius: 20px;
+    transition: 200ms;
+    border-width: 0px;
+    border-color: rgb(27, 162, 207);
+    padding-right: 50px;
+    padding-left: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: large;
+    text-align: left;
+
+}   
+
+.vote-box:hover {
+    background-color:  rgb(251, 255, 0);
+    scale: 1.1;
+    color: black;
+    transition: 500ms;
+    border-width: 5px;
+}

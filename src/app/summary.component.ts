@@ -13,7 +13,7 @@ import { AccountService } from './services/account.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './summary.component.html',
-  styleUrls: ['./summary.component.css']
+  styleUrls: ['./summary.component.css', './submission_forms.css']
 })
 export class SummaryComponent {
   currentAccount : Account | undefined;
