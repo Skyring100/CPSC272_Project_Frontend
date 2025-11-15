@@ -104,3 +104,15 @@
 .poll_element ul {
     padding: 0;
 }
+
+.vote-box[disabled] {
+    background-color: slategray;
+    opacity: 0.3;
+}
+
+.vote-box[disabled]:hover {
+    background-color: slategray;
+    scale: 1.0;
+    color: rgb(255, 255, 255);
+    border-width: 0px;
+}
