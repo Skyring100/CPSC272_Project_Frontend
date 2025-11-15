@@ -40,14 +40,12 @@
             [poll]="poll"
             [showControls]="true"
             (deletePollClicked)="deletePoll($event)"
-            (toggleVisibilityClicked)="toggleVisibility($event)"
-            (error)="onError($event)">
+            (toggleVisibilityClicked)="toggleVisibility($event)">
         </app-poll>
     } @else if (viewMode === 'voted') {
         <app-poll 
             *ngFor="let poll of votedPolls" 
-            [poll]="poll"
-            (error)="onError($event)">
+            [poll]="poll">
         </app-poll>
     }
 </div>

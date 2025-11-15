@@ -19,9 +19,9 @@ export class PollComponent {
   
   @Output() deletePollClicked = new EventEmitter<Poll>();
   @Output() toggleVisibilityClicked = new EventEmitter<Poll>();
-  @Output() error = new EventEmitter<string>();
 
   voteTimeout: any = null;
+  errorMessage: string | null = null;
 
   constructor(
     private pollSvc: PollService,
@@ -33,23 +33,24 @@ export class PollComponent {
   }
 
   onVoteClick(option: Option) {
-    if (this.poll.user_vote === option.option_id) {
+    this.errorMessage = null;
+
+    if (this.poll.user_vote === option.option_id)
       this.removeVote(option);
-    } else {
+    else
       this.vote(option);
-    }
   }
 
   vote(option: Option) {
     if (this.voteTimeout) return;
 
     if (!this.auth.isAuthenticated) {
-      this.error.emit("You must be logged in to vote on a poll");
+      this.errorMessage = "You must be logged in to vote on a poll";
       return;
     }
 
     if (!this.poll.poll_id || !option.option_id) {
-      this.error.emit("Poll or option selected is invalid");
+      this.errorMessage = "Poll or option selected is invalid";
       return;
     }
 
@@ -65,7 +66,7 @@ export class PollComponent {
         this.poll.user_vote = option.option_id;
         option.vote_count = option.vote_count + 1;
       },
-      error: err => this.error.emit(err.error?.message || 'Vote failed'),
+      error: err => this.errorMessage = err.error?.message || 'Vote failed',
     });
   }
 
@@ -73,7 +74,7 @@ export class PollComponent {
     if (this.voteTimeout) return;
 
     if (!this.auth.isAuthenticated) {
-      this.error.emit("You must be logged in to remove vote on a poll");
+      this.errorMessage = "You must be logged in to remove vote on a poll";
       return;
     }
 
@@ -89,7 +90,7 @@ export class PollComponent {
         option.vote_count = option.vote_count - 1;
         this.poll.user_vote = undefined;
       },
-      error: err => this.error.emit(err.error?.message || 'Failed to remove vote'),
+      error: err => this.errorMessage = err.error?.message || 'Failed to remove vote',
     });
   }
 
