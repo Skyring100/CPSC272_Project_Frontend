@@ -1,48 +1,21 @@
-<div class="main_page">
-
-  <button (click)="pollCreation.hidden = !pollCreation.hidden" class="create-button">
-    {{ pollCreation.hidden ? 'Create Your Own Poll' : 'Hide Poll Creation' }}
-  </button>
-
-  <div class="submission">
-    @if (errorMessage) {
-      <p style="color: red;">{{ errorMessage }}</p>
-    }
-    
-    <div #pollCreation [hidden]="true">
-      <label class="create_poll_question" for="question">Question:</label>
-      <input type="text" id="question" name="question" [(ngModel)]="questionField">
-      <ul>
-        @for (op of optionsFields; track i; let i = $index) {
-          <li>
-            <label for="option">Option {{i+1}}:</label>
-            <input type="text" id="option" name="option" [(ngModel)]="optionsFields[i]">
-          </li>
-          <br>
-        }
-        <button (click)="addOptionField()">Add Option</button>
-        <button (click)="createNewPoll()">Create Poll</button>
-      </ul>
-    </div>
-  </div>
+<div class="poll_element">
+  <p class="poll_question">{{ poll.question }}</p>
+  <ul *ngFor="let option of poll.options">
+    <li class="poll_option" [class.user-voted]="poll.user_vote === option.option_id">
+      <button 
+        (click)="onVoteClick(option)" 
+        [disabled]="isVoteDisabled(option)"
+        [style.background-color]="poll.user_vote === option.option_id ? 'lightgreen' : ''"
+        [class.vote-box]="!showControls">
+        {{option.content}} - {{option.vote_count}}
+      </button>
+    </li>
+  </ul>
   
-
-  <!--Show all polls in the database-->
-  <!--For every poll in in the loaded results, repeat this div element-->
-  <div class="poll-list" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScrollDown()">
-    <div *ngFor="let poll of allPolls" class="poll_element">
-      <p class="poll_question">{{ poll.question }}</p>
-      <!--For every option inside this poll, repeat this list element-->
-      <ul *ngFor="let option of poll.options">
-        <li class="poll_option">
-          <button 
-            (click)="poll.user_vote === option.option_id ? removeVote(poll, option) : vote(poll, option)" 
-            [disabled]="poll.user_vote && poll.user_vote !== option.option_id || voteTimeout"
-            [style.background-color]="poll.user_vote === option.option_id ? 'lightgreen' : ''">
-            {{option.content}} - {{option.vote_count}}
-          </button>
-        </li>
-      </ul>
+  @if (showControls) {
+    <div class="poll-controls" style="text-align: center;">
+      <button (click)="onDeleteClick()">Delete</button>
+      <button (click)="onToggleVisibility()">{{ poll.is_visible ? 'Make Private' : 'Make Public' }}</button>
     </div>
-  </div>
+  }
 </div>

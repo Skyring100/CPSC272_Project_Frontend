@@ -1,5 +1,5 @@
 <div>
-    <p class="alt-text"> Username: {{username}} | Polls Made: {{userPolls.length}} | Polls Done: </p>
+    <p class="alt-text"> Username: {{username}} | Polls Made: {{userPolls.length}} | Polls Done: {{votedPolls.length}} </p>
 
     <button (click)="logOut()" class="logout">Log Out</button>
 
@@ -29,13 +29,25 @@
     </div>
 </div>
 <div>
-    <div *ngFor="let poll of userPolls" class="poll_element">
-        <p class="poll_question">{{ poll.question }}</p>
-        <ul *ngFor="let option of poll.options">
-            <li class="poll_option" [class.user-voted]="poll.user_vote === option.option_id">
-                <button [disabled]="poll.user_vote">{{option.content}} - {{option.vote_count}}</button>
-            </li>
-        </ul>
-        <button (click)="deletePoll(poll)">Delete</button>
+    <div>
+        <button (click)="setView('created')" [class.active]="viewMode === 'created'">Created Polls</button>
+        <button (click)="setView('voted')" [class.active]="viewMode === 'voted'">Voted Polls</button>
     </div>
+
+    @if (viewMode === 'created') {
+        <app-poll 
+            *ngFor="let poll of userPolls" 
+            [poll]="poll"
+            [showControls]="true"
+            (deletePollClicked)="deletePoll($event)"
+            (toggleVisibilityClicked)="toggleVisibility($event)"
+            (error)="onError($event)">
+        </app-poll>
+    } @else if (viewMode === 'voted') {
+        <app-poll 
+            *ngFor="let poll of votedPolls" 
+            [poll]="poll"
+            (error)="onError($event)">
+        </app-poll>
+    }
 </div>

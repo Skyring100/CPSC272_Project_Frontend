@@ -1,69 +1,55 @@
-import { Component } from '@angular/core';
-import { PollService } from '../../services/poll.service';
-import { Poll } from '../../models/poll.model';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { Poll } from '../../models/poll.model';
 import { Option } from '../../models/option.model';
+import { PollService } from '../../services/poll.service';
 import { AuthService } from '../../services/auth.service';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-
 
 @Component({
   selector: 'app-poll',
   standalone: true,
-  imports: [CommonModule, FormsModule, InfiniteScrollModule],
+  imports: [CommonModule],
   templateUrl: './poll.component.html',
-  styleUrls: ['./poll.component.css','../submission_forms.css']
+  styleUrls: ['./poll.component.css']
 })
 export class PollComponent {
-  allPolls: Poll[] = [];
-  questionField: string = '';
-  optionsFields: string[] = ['', ''];
-  errorMessage: string = '';
-  loading = false;
-  currentPage = 1;
+  // Using input / output in order to apply and get changes from other components
+  @Input() poll!: Poll;
+  @Input() showControls: boolean = false;
+  
+  @Output() deletePollClicked = new EventEmitter<Poll>();
+  @Output() toggleVisibilityClicked = new EventEmitter<Poll>();
+  @Output() error = new EventEmitter<string>();
+
   voteTimeout: any = null;
 
   constructor(
     private pollSvc: PollService,
-    private auth: AuthService,
+    private auth: AuthService
   ) {}
 
-  ngOnInit(){
-    this.load();
+  get isCreator(): boolean {
+    return this.poll.uuid === this.auth.user?.uuid;
   }
 
-  load() {
-    this.loading = true;
-    this.pollSvc.getAllPolls(this.currentPage).subscribe({
-      next: polls => {
-        this.allPolls.push(...polls)
-        this.loading = false
-      },
-      error: err => {
-        if (err.status !== 403) {
-          this.errorMessage = err.error?.message || 'Failed to load polls';
-        }
-      },
-    });
+  onVoteClick(option: Option) {
+    if (this.poll.user_vote === option.option_id) {
+      this.removeVote(option);
+    } else {
+      this.vote(option);
+    }
   }
 
-  onScrollDown() {
-    if (this.loading) return;
-    this.currentPage++;
-    this.load();
-  }
-
-  vote(poll: Poll, option: Option) {
+  vote(option: Option) {
     if (this.voteTimeout) return;
 
     if (!this.auth.isAuthenticated) {
-      this.errorMessage = "You must be logged in to vote on a poll"
+      this.error.emit("You must be logged in to vote on a poll");
       return;
     }
 
-    if (poll.user_vote || !poll.poll_id || !option.option_id){
-      console.log("Poll or option selected is invalid");
+    if (!this.poll.poll_id || !option.option_id) {
+      this.error.emit("Poll or option selected is invalid");
       return;
     }
 
@@ -72,76 +58,52 @@ export class PollComponent {
     }, 500);
 
     this.pollSvc.castVote({
-      poll_id: poll.poll_id,
+      poll_id: this.poll.poll_id,
       option_id: option.option_id,
     }).subscribe({
       next: _ => {
-        poll.user_vote = option.option_id;
+        this.poll.user_vote = option.option_id;
         option.vote_count = option.vote_count + 1;
       },
-      error: err => this.errorMessage = err.error?.message || 'Vote failed',
+      error: err => this.error.emit(err.error?.message || 'Vote failed'),
     });
   }
 
-  removeVote(poll: Poll, option: Option) {
+  removeVote(option: Option) {
     if (this.voteTimeout) return;
 
     if (!this.auth.isAuthenticated) {
-      this.errorMessage = "You must be logged in to remove vote on a poll"
+      this.error.emit("You must be logged in to remove vote on a poll");
       return;
     }
 
-    if (!poll.user_vote || !poll.poll_id || !option.option_id)
+    if (!this.poll.user_vote || !this.poll.poll_id || !option.option_id)
       return;
 
     this.voteTimeout = setTimeout(() => {
       this.voteTimeout = null;
     }, 500);
     
-    this.pollSvc.removeVote(poll.poll_id).subscribe(() => {
+    this.pollSvc.removeVote(this.poll.poll_id).subscribe({
+      next: () => {
         option.vote_count = option.vote_count - 1;
-        poll.user_vote = undefined;
-        console.log("Vote removed");
-    });
-  }
-
-  createNewPoll() {
-    if (!this.auth.isAuthenticated) {
-      this.errorMessage = "You must be logged in to create a poll"
-      return;
-    }
-
-    if (!this.questionField) {
-      this.errorMessage = "All polls must have a question"
-      return;
-    }
-
-    if (this.optionsFields.some(option => option === '')) {
-      this.errorMessage = "All options must be filled out"
-      return;
-    }
-
-    const newPoll : any = {
-      question : this.questionField,
-      options : this.optionsFields,
-    }
-
-    this.pollSvc.addPoll(newPoll).subscribe({
-      next: _ => {
-        this.allPolls = [];
-        this.currentPage = 1;
-        this.questionField = "";
-        this.optionsFields = ["", ""];
-        this.load();
+        this.poll.user_vote = undefined;
       },
-      error: err => this.errorMessage = err.error?.message || 'Failed to create poll',
+      error: err => this.error.emit(err.error?.message || 'Failed to remove vote'),
     });
   }
 
-  addOptionField() {
-    if (this.optionsFields.length < 8)
-      this.optionsFields?.push("");
-    else
-      this.errorMessage = 'Polls are limited to 8 options'
+  onDeleteClick() {
+    this.deletePollClicked.emit(this.poll);
+  }
+
+  onToggleVisibility() {
+    this.toggleVisibilityClicked.emit(this.poll);
+  }
+
+  isVoteDisabled(option: Option): boolean {
+    if (this.voteTimeout) return true;
+    if (this.isCreator && this.showControls) return true;
+    return !!(this.poll.user_vote && this.poll.user_vote !== option.option_id);
   }
 }

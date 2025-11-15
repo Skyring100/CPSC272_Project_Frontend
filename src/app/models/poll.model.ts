@@ -7,6 +7,5 @@ export interface Poll {
   uuid?: number;
   is_visible?: boolean;
   open_date?: string;
-  close_date?: string | null;
   user_vote?: number | null;
 }

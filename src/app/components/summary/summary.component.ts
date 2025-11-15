@@ -6,11 +6,12 @@ import { AccountService } from '../../services/account.service';
 import { AuthService } from '../../services/auth.service';
 import { Poll } from '../../models/poll.model';
 import { PollService } from '../../services/poll.service';
+import { PollComponent } from '../poll/poll.component';
 
 @Component({
   selector: 'app-summary',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, PollComponent],
   templateUrl: './summary.component.html',
   styleUrls: ['./summary.component.css']
 })
@@ -18,10 +19,11 @@ export class SummaryComponent {
   username: string | null | undefined = '';
   errorMessage: string = '';
   userPolls: Poll[] = [];
+  votedPolls: Poll[] = [];
   currentPassword = '';
   newPassword = '';
   changePasswordSuccess : boolean | undefined;
-  
+  viewMode: 'created' | 'voted' = 'created';
   
   constructor(
     private accountSvc: AccountService,
@@ -30,13 +32,20 @@ export class SummaryComponent {
     private auth: AuthService,
   ) {}
   
-  
   ngOnInit(){
-    this.username = this.auth.user?.username
+    this.username = this.auth.user?.username;
     this.accountSvc.getUserPolls().subscribe({
       next: polls => this.userPolls = polls,
-      error: err => this.errorMessage = err.error?.message || 'Failed to load polls',
+      error: err => this.errorMessage = err.error?.message || 'Failed to load created polls',
     });
+    this.accountSvc.getUserVotedPolls().subscribe({
+      next: polls => this.votedPolls = polls,
+      error: err => this.errorMessage = err.error?.message || 'Failed to load voted polls',
+    });
+  }
+
+  setView(mode: 'created' | 'voted') {
+    this.viewMode = mode;
   }
 
   logOut() {
@@ -47,7 +56,6 @@ export class SummaryComponent {
   }
 
   updateAccount() {
-
     if (!this.currentPassword || !this.newPassword) {
       this.errorMessage = "You must fill current password and new password fields";
       return;
@@ -74,9 +82,21 @@ export class SummaryComponent {
     });
   }
 
-  deletePoll(p : Poll){
-    this.pollSvc.deletePoll(p.poll_id).subscribe(() => {
-      this.userPolls = this.userPolls.filter(poll => poll.poll_id !== p.poll_id);
+  deletePoll(poll: Poll){
+    this.pollSvc.deletePoll(poll.poll_id).subscribe(() => {
+      this.userPolls = this.userPolls.filter(p => p.poll_id !== poll.poll_id);
+      this.votedPolls = this.votedPolls.filter(p => p.poll_id !== poll.poll_id);
     });
+  }
+
+  toggleVisibility(poll: Poll) {
+    this.pollSvc.updatePollVisibility(poll.poll_id, !poll.is_visible).subscribe({
+      next: updatedPoll => poll.is_visible = updatedPoll.is_visible,
+      error: err => this.errorMessage = err.error?.message || 'Failed to update poll visibility'
+    });
+  }
+
+  onError(message: string) {
+    this.errorMessage = message;
   }
 }

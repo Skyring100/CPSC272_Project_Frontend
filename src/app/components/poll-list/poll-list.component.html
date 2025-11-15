@@ -1,0 +1,36 @@
+<div class="main_page">
+
+  <button (click)="pollCreation.hidden = !pollCreation.hidden" class="create-button">
+    {{ pollCreation.hidden ? 'Create Your Own Poll' : 'Hide Poll Creation' }}
+  </button>
+
+  <div class="submission">
+    @if (errorMessage) {
+      <p style="color: red;">{{ errorMessage }}</p>
+    }
+    
+    <div #pollCreation [hidden]="true">
+      <label class="create_poll_question" for="question">Question:</label>
+      <input type="text" id="question" name="question" [(ngModel)]="questionField">
+      <ul>
+        @for (op of optionsFields; track i; let i = $index) {
+          <li>
+            <label for="option">Option {{i+1}}:</label>
+            <input type="text" id="option" name="option" [(ngModel)]="optionsFields[i]">
+          </li>
+          <br>
+        }
+        <button (click)="addOptionField()">Add Option</button>
+        <button (click)="createNewPoll()">Create Poll</button>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="poll-list" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScrollDown()">
+    <app-poll 
+      *ngFor="let poll of allPolls" 
+      [poll]="poll"
+      (error)="onError($event)">
+    </app-poll>
+  </div>
+</div>

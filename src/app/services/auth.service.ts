@@ -29,7 +29,7 @@ export class AuthService {
   }
 
   logout(): Observable<{ message: string }> {
-    return this.http.post<{ message: string }>(`${environment.apiUrl}/logout`, {})
+    return this.http.delete<{ message: string }>(`${environment.apiUrl}/logout`, {})
       .pipe(tap(() => this.userSubject.next(null)));
   }
 
