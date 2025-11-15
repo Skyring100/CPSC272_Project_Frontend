@@ -13,7 +13,7 @@ import { PollComponent } from '../poll/poll.component';
   standalone: true,
   imports: [CommonModule, FormsModule, PollComponent],
   templateUrl: './summary.component.html',
-  styleUrls: ['./summary.component.css']
+  styleUrls: ['./summary.component.css', '../submission_forms.css']
 })
 export class SummaryComponent {
   username: string | null | undefined = '';

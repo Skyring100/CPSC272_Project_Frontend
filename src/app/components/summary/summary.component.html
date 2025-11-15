@@ -1,4 +1,4 @@
-<div>
+<div class="submission">
     <p class="alt-text"> Username: {{username}} | Polls Made: {{userPolls.length}} | Polls Voted: {{votedPolls.length}} </p>
 
     <button (click)="logOut()" class="logout">Log Out</button>
@@ -29,7 +29,7 @@
     </div>
 </div>
 <div>
-    <div>
+    <div class="submission" style="width: 25%;">
         <button (click)="setView('created')">Created Polls</button>
         <button (click)="setView('voted')">Voted Polls</button>
     </div>
