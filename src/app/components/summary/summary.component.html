@@ -30,8 +30,8 @@
 </div>
 <div>
     <div>
-        <button (click)="setView('created')" [class.active]="viewMode === 'created'">Created Polls</button>
-        <button (click)="setView('voted')" [class.active]="viewMode === 'voted'">Voted Polls</button>
+        <button (click)="setView('created')">Created Polls</button>
+        <button (click)="setView('voted')">Voted Polls</button>
     </div>
 
     @if (viewMode === 'created') {

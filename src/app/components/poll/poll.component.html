@@ -14,9 +14,9 @@
   </ul>
   
   @if (showControls) {
-    <div class="poll-controls" style="text-align: center;">
-      <button (click)="onDeleteClick()">Delete</button>
-      <button (click)="onToggleVisibility()">{{ poll.is_visible ? 'Make Private' : 'Make Public' }}</button>
+    <div class="poll-controls">
+      <button class="visibility-button" (click)="onToggleVisibility()">{{ poll.is_visible ? 'Make Private' : 'Make Public' }}</button>
+      <button class="delete-button" (click)="onDeleteClick()">Delete</button>
     </div>
   }
 

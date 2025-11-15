@@ -1,3 +1,4 @@
+/* General poll stuff */
 .poll_element {
     border-style: solid;
     border-radius: 20px;
@@ -49,6 +50,11 @@
     
 }
 
+.poll_element ul {
+    padding: 0;
+}
+
+/* Poll options */
 .poll_option {
     opacity: 0;
     visibility: hidden;
@@ -65,6 +71,7 @@
     transition: 200ms;
 }
 
+/* Vote box stuff */
 .vote-box {
     
     color: rgb(255, 255, 255);
@@ -101,10 +108,6 @@
     margin-left: 10px;
 }
 
-.poll_element ul {
-    padding: 0;
-}
-
 .vote-box[disabled] {
     background-color: slategray;
     opacity: 0.3;
@@ -115,4 +118,32 @@
     scale: 1.0;
     color: rgb(255, 255, 255);
     border-width: 0px;
+}
+
+/* Poll delete/visibility buttons */
+.poll-controls {
+  position: relative;
+  height: 30px;
+  margin-top: 15px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 200ms, visibility 200ms;
+}
+
+.poll_element:hover .poll-controls {
+    visibility: visible;
+    opacity: 1;
+}
+
+.poll-controls .visibility-button {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+}
+
+.poll-controls .delete-button {
+  position: absolute;
+  right: 2.5%;
+  bottom: 0;
 }
