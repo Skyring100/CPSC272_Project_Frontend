@@ -39,9 +39,8 @@ export class PollListComponent {
         this.loading = false
       },
       error: err => {
-        if (err.status !== 403) {
+        if (err.status !== 403)
           this.errorMessage = err.error?.message || 'Failed to load polls';
-        }
         this.loading = false;
       },
     });

@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { LogInComponent } from './components/login/login.component';
 import { SummaryComponent } from './components/summary/summary.component';
 import { SignUpComponent } from './components/signup/signup.component';
-import { PollComponent } from './components/poll/poll.component';
 import { authGuard } from './guards/auth.guard';
 import { PollListComponent } from './components/poll-list/poll-list.component';
 
