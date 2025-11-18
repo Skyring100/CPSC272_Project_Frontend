@@ -13,6 +13,7 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./signup.component.css','../submission_forms.css']
 })
 export class SignUpComponent {
+  readonly MAX_USERNAME_LENGTH: number = 26;
   usernameField: string = '';
   passwordField: string = '';
   confirmPasswordField: string = '';
@@ -42,6 +43,12 @@ export class SignUpComponent {
     // Check if verify password field matches password
     if (this.passwordField !== this.confirmPasswordField) {
       this.errorMessage = 'Passwords do not match';
+      return;
+    }
+
+    // Check if username is too long
+    if (this.usernameField.length > this.MAX_USERNAME_LENGTH){
+      this.errorMessage = 'Username is too long (max '+this.MAX_USERNAME_LENGTH+" chracters)";
       return;
     }
 
