@@ -9,7 +9,6 @@ export class AuthService {
   // Use 3 states instead of just 2 so we know the difference between
   // not initialized and logged out. This simplifies the guard as we
   // don't have to figure out the difference between them
-  // I.e. navigate to login after logout
   private userSubject = new BehaviorSubject<Account | null | undefined>(undefined);
   public user$ = this.userSubject.asObservable();
 

@@ -21,11 +21,7 @@ export class LogInComponent {
     private auth: AuthService,
   ) {}
 
-  ngOnInit() {
-    if (this.auth.isAuthenticated) {
-      this.router.navigate(['/poll']);
-    }
-  }
+  ngOnInit() {}
 
   logIn() {
     if (!this.usernameField || !this.passwordField) {

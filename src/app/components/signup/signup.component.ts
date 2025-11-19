@@ -25,11 +25,7 @@ export class SignUpComponent {
     private auth: AuthService,
   ) {}
   
-  ngOnInit() {
-    if (this.auth.isAuthenticated) {
-      this.router.navigateByUrl('/poll');
-    }
-  }
+  ngOnInit() {}
 
   signUp() {
     this.errorMessage = '';
@@ -46,8 +42,15 @@ export class SignUpComponent {
       return;
     }
 
+    const nameLen = this.usernameField.length;
+
+    if (nameLen < 3) {
+      this.errorMessage = 'Username is too short. Usernames must be at least 3 characters';
+      return;
+    }
+
     // Check if username is too long
-    if (this.usernameField.length > this.MAX_USERNAME_LENGTH){
+    if (this.usernameField.length > this.MAX_USERNAME_LENGTH) {
       this.errorMessage = 'Username is too long (max '+this.MAX_USERNAME_LENGTH+" chracters)";
       return;
     }

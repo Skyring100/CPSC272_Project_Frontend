@@ -35,16 +35,14 @@
     </div>
 
     @if (viewMode === 'created') {
-        <app-poll 
-            *ngFor="let poll of userPolls" 
+        <app-poll *ngFor="let poll of userPolls" 
             [poll]="poll"
             [showControls]="true"
             (deletePollClicked)="deletePoll($event)"
             (toggleVisibilityClicked)="toggleVisibility($event)">
         </app-poll>
     } @else if (viewMode === 'voted') {
-        <app-poll 
-            *ngFor="let poll of votedPolls" 
+        <app-poll *ngFor="let poll of votedPolls" 
             [poll]="poll">
         </app-poll>
     }
