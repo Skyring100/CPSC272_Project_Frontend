@@ -23,7 +23,7 @@ export class SummaryComponent {
   currentPassword = '';
   newPassword = '';
   changePasswordSuccess : boolean | undefined;
-  viewMode: 'created' | 'voted' = 'created';
+  viewMode: 'Created' | 'Voted' = 'Created';
   
   constructor(
     private accountSvc: AccountService,
@@ -44,8 +44,8 @@ export class SummaryComponent {
     });
   }
 
-  setView(mode: 'created' | 'voted') {
-    this.viewMode = mode;
+  toggleView() {
+    this.viewMode = this.viewMode === 'Created' ? 'Voted' : 'Created';
   }
 
   logOut() {

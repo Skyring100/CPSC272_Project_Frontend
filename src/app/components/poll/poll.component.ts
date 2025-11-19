@@ -32,6 +32,18 @@ export class PollComponent {
     return this.poll.uuid === this.auth.user?.uuid;
   }
 
+  get totalVotes(): number {
+    if (!this.poll.options)
+      return 0;
+    return this.poll.options.reduce((sum, option) => sum + (option.vote_count || 0), 0);
+  }
+
+  getVotePercentage(option: Option) {
+    if (this.totalVotes === 0)
+      return 0;
+    return ((option.vote_count || 0) / this.totalVotes) * 100;
+  }
+
   onVoteClick(option: Option) {
     this.errorMessage = null;
 

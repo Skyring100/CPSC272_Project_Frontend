@@ -30,18 +30,17 @@
 </div>
 <div id="summary">
     <div class="submission" style="width: 25%;">
-        <button (click)="setView('created')">Created Polls</button>
-        <button (click)="setView('voted')">Voted Polls</button>
+        <button (click)="toggleView()">Showing {{ viewMode }} Polls</button>
     </div>
 
-    @if (viewMode === 'created') {
+    @if (viewMode === 'Created') {
         <app-poll *ngFor="let poll of userPolls" 
             [poll]="poll"
             [showControls]="true"
             (deletePollClicked)="deletePoll($event)"
             (toggleVisibilityClicked)="toggleVisibility($event)" >
         </app-poll>
-    } @else if (viewMode === 'voted') {
+    } @else if (viewMode === 'Voted') {
         <app-poll *ngFor="let poll of votedPolls" 
             [poll]="poll">
         </app-poll>
