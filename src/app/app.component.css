@@ -1,0 +1,79 @@
+.page {
+    display: grid;
+    grid-template-areas: 
+    "header"
+    "content"
+    "footer";
+    grid-template-rows: 100px 90% 100px;
+}
+
+.page div.header {
+    z-index: 10;
+    position: sticky;
+    top: 0;
+    grid-area: header;
+
+    color: black;
+    background-image: linear-gradient(to bottom, whitesmoke, rgba(245, 245, 245, 0.753), rgba(245, 245, 245, 0));
+
+
+}
+
+.page div.header ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+}
+
+.auth-links {
+    display: flex;
+}
+
+
+.page div.header ul li a {
+    display: block;
+    color: black;
+    background-color: rgb(51, 180, 223);
+    text-align: center;
+    padding: 20px 25px;
+    border-radius: 50px;
+    margin: 10px;
+    text-decoration: none;
+    transition: 500ms;
+    cursor: pointer;
+}
+
+.page div.content {
+    grid-area: content;
+    width: 100%;
+    
+}
+
+.page div.header ul li a:hover{
+    background-color: rgb(153, 224, 248);
+    transition: 200ms;
+    scale: 1.05;
+}
+
+div.up-gradient {
+    height: 100px;
+    width: 100%;
+    grid-area: footer;
+    position: fixed;
+    bottom: 0;
+    z-index: 10;
+    background-image: linear-gradient(to top, whitesmoke, whitesmoke, rgba(245, 245, 245, 0.753), rgba(245, 245, 245, 0));
+}
+div.fish{
+    position: absolute;
+    top: 50%;
+    width: 100%;;
+    text-align: center;
+    font-size: xx-large;
+    color: rgb(51, 180, 223);
+    scale: 1;
+    text-shadow: 2px 2px 4px #6a7b8b;
+}

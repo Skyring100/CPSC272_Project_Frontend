@@ -48,13 +48,6 @@ export class SummaryComponent {
     this.viewMode = this.viewMode === 'Created' ? 'Voted' : 'Created';
   }
 
-  logOut() {
-    this.auth.logout().subscribe({
-      next: _ => this.router.navigate(['/login']),
-      error: err => this.errorMessage = err.error?.message || 'logout failed',
-    });
-  }
-
   updateAccount() {
     if (!this.currentPassword || !this.newPassword) {
       this.errorMessage = "You must fill current password and new password fields";
@@ -77,7 +70,12 @@ export class SummaryComponent {
 
   deleteAccount(){
     this.accountSvc.deleteAccount().subscribe({
-      next: _ => this.logOut(),
+      next: _ => {
+        this.auth.logout().subscribe({
+          next: _ => this.router.navigate(['/login']),
+          error: err => this.errorMessage = err.error?.message || 'logout failed',
+        });
+      },
       error: err => this.errorMessage = err.error?.message || 'Failed to delete account',
     });
   }

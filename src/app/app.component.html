@@ -1,0 +1,21 @@
+<div class="page">
+  <div class="header">
+    <ul>
+      <li id="home-button"><a routerLink="/poll">POLL.OCK</a></li>
+      <div class="auth-links">
+        <ng-container *ngIf="isAuthenticated(); else loggedOut">
+          <li><a routerLink="/summary">Account</a></li>
+          <li><a (click)="logout()">Logout</a></li>
+        </ng-container>
+        <ng-template #loggedOut>
+          <li><a routerLink="/login">Login</a></li>
+          <li><a routerLink="/signup">Sign Up</a></li>
+        </ng-template>
+      </div>
+    </ul>
+  </div>
+  <div class="content"><router-outlet></router-outlet></div>
+  <div class="up-gradient">
+    <div class="fish">𓆟</div>
+  </div>
+</div>
