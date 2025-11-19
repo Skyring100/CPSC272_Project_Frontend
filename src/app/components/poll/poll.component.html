@@ -1,5 +1,7 @@
 <div class="poll_element">
-  <p>Created by: {{poll.username}}</p>
+  @if (poll.username){
+    <p>Created by: {{poll.username}}</p>
+  }
   <p class="poll_question">{{ poll.question }}</p>
   <ul *ngFor="let option of poll.options">
     <li class="poll_option" [class.user-voted]="poll.user_vote === option.option_id">
