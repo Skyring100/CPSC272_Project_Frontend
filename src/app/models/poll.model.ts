@@ -5,6 +5,7 @@ export interface Poll {
   question?: string;
   options?: Option[];
   uuid?: number;
+  username?: string;
   is_visible?: boolean;
   open_date?: string;
   user_vote?: number | null;
