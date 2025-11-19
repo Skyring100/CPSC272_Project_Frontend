@@ -6,6 +6,7 @@
         padding-left: 5%;
     }
     button{
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         background-color: coral;
         color: white;
         border: none;
@@ -38,25 +39,7 @@
     label{
         padding-right: 1%;
     }
-}
-
-div.submission {
-    align-self: center;
-    align-items: center;
-    width: 60%;
-}
-
-.alt-text {
-    padding: 40px 50px;
-    background-color: rgb(31, 137, 156);
-    font-size: x-large;
-    color: rgb(255, 255, 255);
-    align-self: center;
-    text-align: center;
-    text-decoration: underline;
-}
-
-button.logout {
+    button.logout {
     align-items: center;
     align-self: center;
     align-content: center;
@@ -81,3 +64,22 @@ button.logout {
     background-color: rgb(255, 72, 0);
     scale: 1.05;
 }
+}
+
+div.submission {
+    align-self: center;
+    align-items: center;
+    width: 60%;
+}
+
+.alt-text {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding: 40px 50px;
+    background-color: rgb(31, 137, 156);
+    font-size: x-large;
+    color: rgb(255, 255, 255);
+    align-self: center;
+    text-align: center;
+    text-decoration: underline;
+}
+

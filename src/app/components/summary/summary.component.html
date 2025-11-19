@@ -28,7 +28,7 @@
         }
     </div>
 </div>
-<div>
+<div id="summary">
     <div class="submission" style="width: 25%;">
         <button (click)="setView('created')">Created Polls</button>
         <button (click)="setView('voted')">Voted Polls</button>
@@ -39,7 +39,7 @@
             [poll]="poll"
             [showControls]="true"
             (deletePollClicked)="deletePoll($event)"
-            (toggleVisibilityClicked)="toggleVisibility($event)">
+            (toggleVisibilityClicked)="toggleVisibility($event)" >
         </app-poll>
     } @else if (viewMode === 'voted') {
         <app-poll *ngFor="let poll of votedPolls" 

@@ -1,5 +1,6 @@
 /* General poll stuff */
 .poll_element {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-style: solid;
     border-radius: 20px;
     border: none;
@@ -66,6 +67,25 @@
 }
 
 .poll_element:hover .poll_option {
+    visibility: visible;
+    opacity: 1;
+    transition: 200ms;
+}
+
+#summary {
+    opacity: 1;
+}
+#summary .poll_option {
+    opacity: 0.9;
+    visibility: visible;
+    list-style-type: none;
+    transition: 200ms;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: center;
+}
+
+#summary .poll_element:hover .poll_option {
     visibility: visible;
     opacity: 1;
     transition: 200ms;

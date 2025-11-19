@@ -8,7 +8,7 @@
       <button 
         (click)="onVoteClick(option)" 
         [disabled]="isVoteDisabled(option)"
-        [style.background-color]="poll.user_vote === option.option_id ? 'lightgreen' : ''"
+        [style.background-color]="poll.user_vote === option.option_id ? 'steelblue' : ''"
         class="vote-box">
         <span>{{option.content}}</span>
         <span class="vote-count-box">{{option.vote_count}}</span>
