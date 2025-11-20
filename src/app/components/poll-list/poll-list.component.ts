@@ -95,4 +95,11 @@ export class PollListComponent {
     else
       this.errorMessage = 'Polls are limited to 8 options'
   }
+
+  removeOptionField() {
+    if (this.optionsFields.length > 2)
+      this.optionsFields?.pop();
+    else
+      this.errorMessage = 'Polls must have at least 2 options'
+  }
 }
