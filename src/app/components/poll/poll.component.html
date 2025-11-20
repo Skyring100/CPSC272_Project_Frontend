@@ -11,7 +11,9 @@
         [style.background-color]="poll.user_vote === option.option_id ? 'steelblue' : ''"
         class="vote-box">
         <span>{{option.content}}</span>
-        <span class="vote-count-box">{{option.vote_count}}</span>
+        <span class="vote-count-box">
+          {{ getVotePercentage(option) | number:'1.1-1' }}% ({{ option.vote_count }} votes)
+        </span>
       </button>
     </li>
   </ul>
