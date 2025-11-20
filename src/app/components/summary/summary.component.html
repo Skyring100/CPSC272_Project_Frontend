@@ -1,36 +1,39 @@
 <div class="submission">
     <p class="alt-text"> Username: {{username}} | Polls Made: {{userPolls.length}} | Polls Voted: {{votedPolls.length}} </p>
 
+    <div>
     <button #editButton (click)="editOptions.hidden = !editOptions.hidden">
         {{ editOptions.hidden ? 'Show' : 'Hide' }} Account Edit Options
     </button>
+    <button (click)="toggleView()">Showing {{ viewMode }} Polls</button>
+    </div>
 
     @if (errorMessage) {
       <p style="color: red;">{{ errorMessage }}</p>
     }
 
     <div #editOptions [hidden]="true">
-        <button (click)="deleteAccount()">Delete Account</button>
-        <br>
-        <div>
+        <div class="LI-row">
             <label for="current-password">Current Password</label>
             <input type="password" id="current-password" name="current-password" [(ngModel)]="currentPassword">
         </div>
-        <div>
+
+        <div class="LI-row">
             <label for="new-password">New Password</label>
             <input type="password" id="new-password" name="new-password" [(ngModel)]="newPassword">
         </div>
-        <button (click)="updateAccount()">Update Password</button>
+
+        <div class="button-row">
+            <button (click)="updateAccount()">Update Password</button>
+            <button (click)="deleteAccount()">Delete Account</button>
+        </div>
+        
         @if (changePasswordSuccess) {
             <p style="color: green;">Password Updated</p>
         }
     </div>
 </div>
 <div id="summary">
-    <div class="submission" style="width: 25%;">
-        <button (click)="toggleView()">Showing {{ viewMode }} Polls</button>
-    </div>
-
     @if (viewMode === 'Created') {
         <app-poll *ngFor="let poll of userPolls" 
             [poll]="poll"

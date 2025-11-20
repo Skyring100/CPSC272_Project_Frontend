@@ -2,15 +2,14 @@
 <div class="submission">
   <form>
     <ul>
-      <li>
-        <label for="login-username">Username</label>
-        <input type="text" id="login-username" name="login-username" [(ngModel)]="usernameField">
-      </li>
-      <li>
-        <label for="login-password">Password</label>
-        <input type="password" id="login-password" name="login-password" [(ngModel)]="passwordField">
-      </li>
-      <br>
+        <div class="LI-row">
+          <label for="login-username">Username</label>
+          <input type="text" id="login-username" name="login-username" [(ngModel)]="usernameField">
+        </div>
+        <div class="LI-row">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" name="login-password" [(ngModel)]="passwordField">
+        </div>
         <button (click)="logIn()">Login</button>
     </ul>
     
