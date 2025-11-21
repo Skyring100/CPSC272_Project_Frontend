@@ -83,6 +83,7 @@ export class PollListComponent {
         this.currentPage = 1;
         this.questionField = "";
         this.optionsFields = ["", ""];
+        this.errorMessage = "";
         this.load();
       },
       error: err => this.errorMessage = err.error?.message || 'Failed to create poll',
@@ -90,6 +91,7 @@ export class PollListComponent {
   }
 
   addOptionField() {
+    this.errorMessage = "";
     if (this.optionsFields.length < 8)
       this.optionsFields?.push("");
     else
@@ -97,6 +99,7 @@ export class PollListComponent {
   }
 
   removeOptionField() {
+    this.errorMessage = "";
     if (this.optionsFields.length > 2)
       this.optionsFields?.pop();
     else
