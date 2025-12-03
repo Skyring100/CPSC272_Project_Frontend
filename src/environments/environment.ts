@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:3000/api'
+  apiUrl: 'https://cpsc272-project-backend-516761d5e885.herokuapp.com/'
 };
